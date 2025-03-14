@@ -49,8 +49,8 @@ const Portfolio = () => {
             const xPos = e.clientX - ww;
             const yPos = e.clientY - wh;
 
-            containerRef.current.style.setProperty('--mouseX', `${xPos / 25}deg`);
-            containerRef.current.style.setProperty('--mouseY', `${yPos / 25}deg`);
+            containerRef.current.style.setProperty('--mouseX', `${xPos / 15}deg`);
+            containerRef.current.style.setProperty('--mouseY', `${yPos / 15}deg`);
 
             // Use requestAnimationFrame for better performance
             window.requestAnimationFrame(() => {
@@ -169,7 +169,7 @@ const Portfolio = () => {
                     flexDirection: 'row',
                     justifyContent: 'center',
                     alignItems: 'center',
-                    gap: '32px',
+                    gap: '50px',
                     position: 'relative',
                     zIndex: 20,
                 }}

@@ -17,7 +17,7 @@ const BackgroundVideo = ({ category = 'default' }) => {
     };
 
     const videoTimes = {
-        default: { start: 148, end: 250 },
+        default: { start: 148, end: 180 },
         playstation: { start: 0, end: 180 },
         hyukoh: { start: 113, end: 180 },
         reelpick: { start: 0, end: 180 },
@@ -56,6 +56,7 @@ const BackgroundVideo = ({ category = 'default' }) => {
                 player.style.top = '-25%';
                 player.style.left = '-25%';
                 player.style.transform = 'scale(1.34)'; // Scale up to fill 100% of screen
+                player.style.pointerEvents = 'none'; // 모든 클릭 이벤트 무시
 
                 container.appendChild(player);
                 document.querySelector('#background-container').appendChild(container);
@@ -211,11 +212,12 @@ const BackgroundVideo = ({ category = 'default' }) => {
                 width: '100%',
                 height: '100%',
                 overflow: 'hidden',
+                pointerEvents: 'none', // 클릭 이벤트 무시
             }}
         >
             {/* YouTube players will be inserted into this container */}
 
-            {/* Video overlay */}
+            {/* Video overlay - added pointer-events: none to prevent clicking */}
             <div
                 style={{
                     position: 'absolute',
