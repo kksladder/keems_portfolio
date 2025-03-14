@@ -20,17 +20,17 @@ const Portfolio = () => {
         },
         {
             id: 3,
-            title: 'Reel Pick OTT project',
+            title: 'ReelPick OTT project',
             imageUrl: '/image/reelpick.png', // Ensure this file exists in the correct location
             url: 'https://reelpic-kott3-icpz.vercel.app/',
             videoCategory: 'reelpick',
         },
         {
             id: 4,
-            title: 'Minimalist Project',
-            imageUrl: '/image/22.jpg', // Fixed inconsistent path - removed /public/
-            url: '',
-            videoCategory: 'default',
+            title: 'Renewal',
+            imageUrl: '/image/profile-1.jpeg', // Fixed inconsistent path - removed /public/
+            url: 'https://oheshiorenewal.vercel.app/',
+            videoCategory: 'oheshio',
         },
     ];
 
@@ -202,6 +202,7 @@ const Portfolio = () => {
                                 overflow: 'hidden',
                                 borderRadius: '8px',
                                 position: 'relative',
+                                backgroundColor: 'transparent', // 배경을 투명하게 설정
                             }}
                         >
                             <img

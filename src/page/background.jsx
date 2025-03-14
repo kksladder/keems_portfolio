@@ -9,17 +9,19 @@ const BackgroundVideo = ({ category = 'default' }) => {
 
     // Video configuration
     const videoIds = {
-        default: 'pSUydWEqKwE',
+        default: 'nit5V_K8uV4',
         playstation: 'giGyazPIbn8',
         hyukoh: 'Js67kofnQw0',
         reelpick: 'oanT_nueNEM',
+        oheshio: 'pSUydWEqKwE', // 'renewal'을 'oheshio'로 변경 (Portfolio.js에 맞춤)
     };
 
     const videoTimes = {
-        default: { start: 97, end: 180 },
+        default: { start: 148, end: 250 },
         playstation: { start: 0, end: 180 },
         hyukoh: { start: 113, end: 180 },
         reelpick: { start: 0, end: 180 },
+        oheshio: { start: 97, end: 180 }, // 'renewal'을 'oheshio'로 변경 (Portfolio.js에 맞춤)
     };
 
     // Load YouTube API
