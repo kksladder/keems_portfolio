@@ -202,7 +202,6 @@ const Portfolio = () => {
                                 overflow: 'hidden',
                                 borderRadius: '8px',
                                 position: 'relative',
-                                backgroundColor: 'transparent', // 배경을 투명하게 설정
                             }}
                         >
                             <img
@@ -246,7 +245,7 @@ const Portfolio = () => {
                                     {item.title}
                                 </span>
                                 {item.url && (
-                                    <span style={{ color: '#4fc3f7', fontSize: '0.9rem' }}>Click to visit project</span>
+                                    <span style={{ color: '#4fc3f7', fontSize: '1rem' }}>Click to visit project</span>
                                 )}
                             </div>
                         </div>
