@@ -12,7 +12,6 @@ const SpinAnimation = styled.div`
         }
     }
 `;
-
 // 회전하는 이미지를 위한 스타일
 const SpinningImage = styled.img`
     animation: spin 3s linear infinite;
