@@ -274,7 +274,7 @@ const Portfolio = () => {
                 style={{
                     ...getContainerStyles(),
                     position: 'relative',
-                    zIndex: 20,
+                    zIndex: 15,
                 }}
             >
                 {portfolioItems.map((item, index) => (

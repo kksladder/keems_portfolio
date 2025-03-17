@@ -84,17 +84,20 @@ const CollageLayout = () => {
             </ImageWrapper>
 
             {/* 상단에 Palace, Supreme 로고 */}
-            <ImageWrapper styles='top: 10%; left: 50%; transform: translateX(-50%); width: 300px;' zIndex={5}>
+            <ImageWrapper
+                styles='top: 1%; left: 50%; transform: translateX(-45%) rotate(0deg); width: 400px;'
+                zIndex={5}
+            >
                 <AnimatedImage
                     src='/image/palace.png'
                     alt='Palace 로고'
-                    animationType='slideTop'
+                    animationType='spin'
                     duration={1.2}
                     delay={1.0}
                 />
             </ImageWrapper>
 
-            <ImageWrapper styles='top: 20%; left: 50%; transform: translateX(-50%); width: 300px;' zIndex={5}>
+            <ImageWrapper styles='top:-10%; left: 8%; transform: translateX(-50%); width: 300px;' zIndex={5}>
                 <AnimatedImage
                     src='/image/supreme.png'
                     alt='Supreme 로고'
@@ -105,7 +108,7 @@ const CollageLayout = () => {
             </ImageWrapper>
 
             {/* 공룡 이미지들 - 좌측 하단 */}
-            <ImageWrapper styles='bottom: 10%; left: 0; width: 120px;' zIndex={5}>
+            <ImageWrapper styles='top:40%; right:82%; width: 500px;' zIndex={5}>
                 <AnimatedImage
                     src='/public/image/indiarapture2.png'
                     alt='공룡1'
@@ -115,11 +118,11 @@ const CollageLayout = () => {
                 />
             </ImageWrapper>
 
-            <ImageWrapper styles='top: 35%; left: 0; width: 120px;' zIndex={5}>
+            <ImageWrapper styles='bottom: 15%; width: 400px;' zIndex={4}>
                 <AnimatedImage src='/image/blue.png' alt='공룡1' animationType='slideLeft' duration={1.5} delay={1.4} />
             </ImageWrapper>
 
-            <ImageWrapper styles='bottom: 0; left: 15%; width: 150px;' zIndex={5}>
+            <ImageWrapper styles='bottom: 0%; left: 9%; width: 450px;' zIndex={5}>
                 <AnimatedImage
                     src='/image/solo.png'
                     alt='카일로렌'
@@ -129,7 +132,7 @@ const CollageLayout = () => {
                 />
             </ImageWrapper>
 
-            <ImageWrapper styles='bottom: 5%; left: 35%; width: 130px;' zIndex={5}>
+            <ImageWrapper styles='bottom: -17%; left: 25%; width: 350px;' zIndex={4}>
                 <AnimatedImage
                     src='/public/image/ramge.png'
                     alt='다람쥐'
@@ -146,7 +149,7 @@ const CollageLayout = () => {
             ></ImageWrapper>
 
             {/* 스타워즈 캐릭터 - 우측 하단 */}
-            <ImageWrapper styles='bottom: 0; right: 15%; width: 120px;' zIndex={5}>
+            <ImageWrapper styles='bottom: -10%; left: 75%; width: 450px;' zIndex={4}>
                 <AnimatedImage
                     src='/image/vader1.png'
                     alt='다스베이더1'
@@ -155,7 +158,7 @@ const CollageLayout = () => {
                     delay={2.2}
                 />
             </ImageWrapper>
-            <ImageWrapper styles='bottom: 0; right: 30%; width: 120px;' zIndex={5}>
+            <ImageWrapper styles='bottom: -3%; right: 30%; width: 550px;' zIndex={5}>
                 <AnimatedImage
                     src='/public/image/indiarapture.png'
                     alt='랩터'
@@ -165,7 +168,7 @@ const CollageLayout = () => {
                 />
             </ImageWrapper>
 
-            <ImageWrapper styles='bottom: 10%; right: 0; width: 100px;' zIndex={5}>
+            <ImageWrapper styles='bottom: 10%; right: 0; width: 500px;' zIndex={3}>
                 <AnimatedImage
                     src='/image/vader2.png'
                     alt='다스베이더2'
@@ -175,7 +178,7 @@ const CollageLayout = () => {
                 />
             </ImageWrapper>
 
-            <ImageWrapper styles='bottom: 30%; right: 5%; width: 300px;' zIndex={5}>
+            <ImageWrapper styles='bottom: 30%; right: -3%; width: 300px;' zIndex={5}>
                 <AnimatedImage src='/image/head.png' alt='머리' animationType='slideRight' duration={1.3} delay={2.6} />
             </ImageWrapper>
         </CollageContainer>
