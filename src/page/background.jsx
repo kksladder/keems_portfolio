@@ -1,31 +1,111 @@
-import React, { useRef, useEffect, useState } from 'react';
+import React, { useRef, useEffect, useState, useCallback } from 'react';
 
 const BackgroundVideo = ({ category = 'default' }) => {
     // Store the current active video category
     const [activeCategory, setActiveCategory] = useState(category);
+    // Reference for interval timer
+    const intervalRef = useRef(null);
+    // Track if the YouTube API is ready
+    const [ytApiReady, setYtApiReady] = useState(false);
 
     // YouTube player references
     const playersRef = useRef({});
+    // Track which players are ready
+    const playersReadyRef = useRef({});
 
     // Video configuration
     const videoIds = {
-        default: 'nit5V_K8uV4',
+        default: 'd6w4dHe_gac',
         playstation: 'giGyazPIbn8',
         hyukoh: 'Js67kofnQw0',
         reelpick: 'oanT_nueNEM',
-        oheshio: 'pSUydWEqKwE', // 'renewal'을 'oheshio'로 변경 (Portfolio.js에 맞춤)
+        oheshio: 'pSUydWEqKwE',
     };
 
     const videoTimes = {
-        default: { start: 148, end: 180 },
+        default: { start: 0, end: 180 },
         playstation: { start: 0, end: 180 },
         hyukoh: { start: 113, end: 180 },
         reelpick: { start: 0, end: 180 },
-        oheshio: { start: 97, end: 180 }, // 'renewal'을 'oheshio'로 변경 (Portfolio.js에 맞춤)
+        oheshio: { start: 97, end: 180 },
     };
+
+    // 비디오 순환 배열
+    const videoCycle = ['default', 'playstation', 'hyukoh', 'reelpick', 'oheshio'];
+
+    // 다음 비디오로 순환하는 함수
+    const cycleToNextVideo = useCallback(() => {
+        // 현재 카테고리가 hover에서 온 것이 아닐 때만 순환
+        if (category === 'default') {
+            const currentIndex = videoCycle.indexOf(activeCategory);
+            const nextIndex = (currentIndex + 1) % videoCycle.length;
+            setActiveCategory(videoCycle[nextIndex]);
+        }
+    }, [activeCategory, category]);
+
+    // 자동 순환 시작/중지 함수
+    const startVideoCycle = useCallback(() => {
+        // 이전 인터벌 제거
+        if (intervalRef.current) {
+            clearInterval(intervalRef.current);
+        }
+        intervalRef.current = setInterval(cycleToNextVideo, 10000);
+    }, [cycleToNextVideo]);
+
+    // category prop이 변경될 때 activeCategory 업데이트
+    useEffect(() => {
+        console.log(`Prop category changed to: ${category}`);
+        // category가 default가 아니면 (hover 상태) activeCategory를 업데이트
+        if (category !== 'default') {
+            setActiveCategory(category);
+        }
+    }, [category]);
+
+    // Check if a player is fully ready
+    const isPlayerReady = useCallback((key) => {
+        return playersRef.current[key] && playersReadyRef.current[key] === true;
+    }, []);
+
+    // This function safely controls the player
+    const safeControlPlayer = useCallback(
+        (key, action) => {
+            if (!isPlayerReady(key)) {
+                console.log(`Player ${key} not ready for ${action}`);
+                return;
+            }
+
+            try {
+                const player = playersRef.current[key];
+                if (action === 'play') {
+                    player.seekTo(videoTimes[key].start);
+                    player.playVideo();
+                } else if (action === 'pause') {
+                    player.pauseVideo();
+                }
+            } catch (e) {
+                console.warn(`Error during ${action} for player ${key}:`, e);
+            }
+        },
+        [isPlayerReady]
+    );
 
     // Load YouTube API
     useEffect(() => {
+        // Create background container if it doesn't exist
+        const backgroundContainer = document.getElementById('background-container');
+        if (!backgroundContainer) {
+            console.log('Creating background container');
+            const container = document.createElement('div');
+            container.id = 'background-container';
+            container.style.position = 'absolute';
+            container.style.inset = '0';
+            container.style.width = '100%';
+            container.style.height = '100%';
+            container.style.overflow = 'hidden';
+            container.style.pointerEvents = 'none';
+            document.body.appendChild(container);
+        }
+
         // Create container divs for each player
         Object.keys(videoIds).forEach((key) => {
             const containerId = `video-container-${key}`;
@@ -75,106 +155,142 @@ const BackgroundVideo = ({ category = 'default' }) => {
             window.onYouTubeIframeAPIReady = () => {
                 console.log('YouTube API Ready');
                 if (originalCallback) originalCallback();
-                initializePlayers();
+                setYtApiReady(true);
             };
 
             // Add script to document
             document.head.appendChild(tag);
         } else if (window.YT.Player) {
-            // API already loaded
             console.log('YouTube API already loaded');
-            initializePlayers();
+            setYtApiReady(true);
         }
 
         return () => {
+            // Cleanup interval on unmount
+            if (intervalRef.current) {
+                clearInterval(intervalRef.current);
+            }
+
             // Cleanup players on unmount
             Object.values(playersRef.current).forEach((player) => {
                 if (player && typeof player.destroy === 'function') {
-                    player.destroy();
+                    try {
+                        player.destroy();
+                    } catch (e) {
+                        console.warn('Error destroying player:', e);
+                    }
                 }
             });
         };
     }, []);
 
-    // Initialize YouTube players
-    const initializePlayers = () => {
-        if (!window.YT || !window.YT.Player) {
-            console.error('YouTube API not available');
-            return;
-        }
-
-        Object.keys(videoIds).forEach((key) => {
-            const playerId = `player-${key}`;
-            const playerElement = document.getElementById(playerId);
-
-            if (!playerElement) {
-                console.error(`Player element ${playerId} not found`);
-                return;
-            }
-
-            if (playersRef.current[key]) {
-                console.log(`Player for ${key} already initialized`);
-                return;
-            }
-
-            try {
-                console.log(`Initializing player for ${key}`);
-                const player = new window.YT.Player(playerId, {
-                    videoId: videoIds[key],
-                    playerVars: {
-                        autoplay: key === activeCategory ? 1 : 0,
-                        mute: 1,
-                        controls: 0,
-                        showinfo: 0,
-                        modestbranding: 1,
-                        loop: 1,
-                        playlist: videoIds[key],
-                        disablekb: 1,
-                        fs: 0,
-                        rel: 0,
-                        iv_load_policy: 3,
-                        autohide: 1,
-                        playsinline: 1,
-                        enablejsapi: 1,
-                        origin: window.location.origin,
-                        start: videoTimes[key].start,
-                        end: videoTimes[key].end,
-                    },
-                    events: {
-                        onReady: (event) => {
-                            console.log(`Player ${key} ready`);
-                            if (key === activeCategory) {
-                                event.target.mute();
-                                event.target.playVideo();
-                            } else {
-                                event.target.pauseVideo();
-                            }
-                        },
-                        onStateChange: (event) => {
-                            if (event.data === window.YT.PlayerState.ENDED) {
-                                event.target.seekTo(videoTimes[key].start);
-                                if (key === activeCategory) {
-                                    event.target.playVideo();
-                                }
-                            }
-                        },
-                        onError: (error) => {
-                            console.error(`Player ${key} error:`, error);
-                        },
-                    },
-                });
-
-                playersRef.current[key] = player;
-            } catch (error) {
-                console.error(`Error initializing player ${key}:`, error);
-            }
-        });
-    };
-
-    // Handle category changes
+    // Initialize YouTube players when API is ready
     useEffect(() => {
-        console.log(`Category changed to: ${category}`);
-        setActiveCategory(category);
+        if (!ytApiReady) return;
+
+        // Reset player ready state
+        playersReadyRef.current = {};
+
+        const initializePlayers = () => {
+            if (!window.YT || !window.YT.Player) {
+                console.warn('YouTube API not available yet');
+                // Try again in a moment
+                setTimeout(initializePlayers, 500);
+                return;
+            }
+
+            Object.keys(videoIds).forEach((key) => {
+                const playerId = `player-${key}`;
+                const playerElement = document.getElementById(playerId);
+
+                if (!playerElement) {
+                    console.error(`Player element ${playerId} not found`);
+                    return;
+                }
+
+                if (playersRef.current[key]) {
+                    // Clean up existing player to avoid duplicates
+                    try {
+                        playersRef.current[key].destroy();
+                    } catch (e) {
+                        console.warn(`Error destroying existing player ${key}:`, e);
+                    }
+                }
+
+                try {
+                    console.log(`Initializing player for ${key}`);
+
+                    // Mark player as not ready
+                    playersReadyRef.current[key] = false;
+
+                    const player = new window.YT.Player(playerId, {
+                        videoId: videoIds[key],
+                        playerVars: {
+                            autoplay: 0, // Start paused, we'll play the active one after ready
+                            mute: 1,
+                            controls: 0,
+                            showinfo: 0,
+                            modestbranding: 1,
+                            loop: 1,
+                            playlist: videoIds[key],
+                            disablekb: 1,
+                            fs: 0,
+                            rel: 0,
+                            iv_load_policy: 3,
+                            autohide: 1,
+                            playsinline: 1,
+                            enablejsapi: 1,
+                            origin: window.location.origin,
+                            start: videoTimes[key].start,
+                            end: videoTimes[key].end,
+                        },
+                        events: {
+                            onReady: (event) => {
+                                console.log(`Player ${key} ready`);
+                                // Always mute for user experience
+                                event.target.mute();
+
+                                // Mark this player as ready
+                                playersReadyRef.current[key] = true;
+
+                                // Only play if this is the active category
+                                if (key === activeCategory) {
+                                    console.log(`Playing active video ${key}`);
+                                    safeControlPlayer(key, 'play');
+                                }
+                            },
+                            onStateChange: (event) => {
+                                if (event.data === window.YT.PlayerState.ENDED) {
+                                    if (key === activeCategory) {
+                                        safeControlPlayer(key, 'play');
+                                    }
+                                }
+                            },
+                            onError: (error) => {
+                                console.error(`Player ${key} error:`, error);
+                                // Mark as not ready on error
+                                playersReadyRef.current[key] = false;
+                            },
+                        },
+                    });
+
+                    playersRef.current[key] = player;
+                } catch (error) {
+                    console.error(`Error initializing player ${key}:`, error);
+                    playersReadyRef.current[key] = false;
+                }
+            });
+
+            // Start video cycle after players are initialized
+            startVideoCycle();
+        };
+
+        initializePlayers();
+    }, [ytApiReady, activeCategory, safeControlPlayer, startVideoCycle]);
+
+    // Handle activeCategory changes (whether from hover or auto-cycle)
+    useEffect(() => {
+        console.log(`Active category changed to: ${activeCategory}`);
 
         // Update visibility of containers
         Object.keys(videoIds).forEach((key) => {
@@ -182,26 +298,18 @@ const BackgroundVideo = ({ category = 'default' }) => {
             const container = document.getElementById(containerId);
 
             if (container) {
-                container.style.opacity = key === category ? '1' : '0';
-                container.style.zIndex = key === category ? '5' : '0';
+                container.style.opacity = key === activeCategory ? '1' : '0';
+                container.style.zIndex = key === activeCategory ? '5' : '0';
 
-                // Play or pause videos
-                const player = playersRef.current[key];
-                if (player && typeof player.getPlayerState === 'function') {
-                    try {
-                        if (key === category) {
-                            player.seekTo(videoTimes[key].start);
-                            player.playVideo();
-                        } else {
-                            player.pauseVideo();
-                        }
-                    } catch (e) {
-                        console.error(`Error controlling player ${key}:`, e);
-                    }
+                // Play or pause videos safely
+                if (key === activeCategory) {
+                    safeControlPlayer(key, 'play');
+                } else {
+                    safeControlPlayer(key, 'pause');
                 }
             }
         });
-    }, [category]);
+    }, [activeCategory, videoIds, safeControlPlayer]);
 
     return (
         <div

@@ -1,34 +1,35 @@
 import React, { useEffect, useRef, useState, useCallback } from 'react';
 import BackgroundVideo from './background';
+import CollageLayout from './CollageLayout';
 
 const Portfolio = () => {
-    // Fixed image paths - removed inconsistent /public/ prefix
+    // Fixed image paths
     const portfolioItems = [
         {
             id: 1,
             title: 'PlayStation Project',
-            imageUrl: '/image/ps5.jpg', // Ensure this file exists in the correct location
+            imageUrl: '/image/ps5.jpg',
             url: 'https://kksladder.github.io/Playstation_Project/index2.html',
             videoCategory: 'playstation',
         },
         {
             id: 2,
             title: 'Hyukoh Project',
-            imageUrl: '/image/aaa.jpg', // Ensure this file exists in the correct location
+            imageUrl: '/image/aaa.jpg',
             url: 'https://hyukoharchive-g20jushpg-kims-projects-0be7b655.vercel.app/',
             videoCategory: 'hyukoh',
         },
         {
             id: 3,
             title: 'ReelPick OTT project',
-            imageUrl: '/image/reelpick.png', // Ensure this file exists in the correct location
+            imageUrl: '/image/reelpick.png',
             url: 'https://reelpic-kott3-icpz.vercel.app/',
             videoCategory: 'reelpick',
         },
         {
             id: 4,
             title: 'Renewal',
-            imageUrl: '/image/profile-1.jpeg', // Fixed inconsistent path - removed /public/
+            imageUrl: '/image/profile-1.jpeg',
             url: 'https://oheshiorenewal.vercel.app/',
             videoCategory: 'oheshio',
         },
@@ -38,6 +39,13 @@ const Portfolio = () => {
     const itemRefs = useRef([]);
     const [hovered, setHovered] = useState(null);
     const [activeVideoCategory, setActiveVideoCategory] = useState('default');
+    const [windowWidth, setWindowWidth] = useState(typeof window !== 'undefined' ? window.innerWidth : 1920);
+
+    // 화면 크기 업데이트
+    const updateWindowWidth = useCallback(() => {
+        const width = window.innerWidth;
+        setWindowWidth(width);
+    }, []);
 
     // Handle mouse movement for 3D effect
     const handleMouseMove = useCallback(
@@ -62,12 +70,12 @@ const Portfolio = () => {
 
                         if (hovered === index) {
                             item.style.transform = `
-                        perspective(1000px) 
-                        rotateY(var(--mouseX)) 
-                        rotateX(var(--mouseY)) 
-                        translateZ(${depth}px)
-                        ${baseTransform}
-                        `;
+                                perspective(1000px) 
+                                rotateY(var(--mouseX)) 
+                                rotateX(var(--mouseY)) 
+                                translateZ(${depth}px)
+                                ${baseTransform}
+                            `;
                         } else {
                             item.style.transform = baseTransform;
                         }
@@ -97,15 +105,20 @@ const Portfolio = () => {
         }
     }, []);
 
-    // Set up event listeners and styles
+    // 화면 크기 변화를 감지하고 반응형 처리
     useEffect(() => {
+        // 초기 로드 시 화면 크기 설정
+        updateWindowWidth();
+
+        // 창 크기 변경 시 화면 크기 업데이트
+        window.addEventListener('resize', updateWindowWidth);
+
         // Add mouse move event listener
         document.addEventListener('mousemove', handleMouseMove);
 
         // Set global styles
         document.body.style.margin = '0';
         document.body.style.padding = '0';
-        document.body.style.overflow = 'hidden';
         document.body.style.backgroundColor = 'black';
 
         // Add CSS variables for the 3D effect
@@ -120,20 +133,108 @@ const Portfolio = () => {
                 perspective: 1000px;
                 margin: 0;
                 padding: 0;
-                overflow: hidden;
                 width: 100%;
                 height: 100%;
                 background-color: black;
+            }
+            
+            /* 스크롤바 스타일링 */
+            ::-webkit-scrollbar {
+                width: 6px;
+                height: 6px;
+            }
+            
+            ::-webkit-scrollbar-track {
+                background: rgba(0,0,0,0.2);
+                border-radius: 10px;
+            }
+            
+            ::-webkit-scrollbar-thumb {
+                background: #4fc3f7;
+                border-radius: 10px;
+            }
+            
+            ::-webkit-scrollbar-thumb:hover {
+                background: #29b6f6;
             }
         `;
         document.head.appendChild(style);
 
         // Clean up on component unmount
         return () => {
+            window.removeEventListener('resize', updateWindowWidth);
             document.removeEventListener('mousemove', handleMouseMove);
             document.head.removeChild(style);
         };
-    }, [handleMouseMove]);
+    }, [handleMouseMove, updateWindowWidth]);
+
+    // 화면 크기에 따라 컨테이너 방향과 아이템 레이아웃을 결정하는 함수
+    const getContainerStyles = () => {
+        // 기본 스타일 (데스크탑)
+        if (windowWidth >= 1024) {
+            return {
+                display: 'flex',
+                flexDirection: 'row',
+                justifyContent: 'center',
+                alignItems: 'center',
+                gap: '50px',
+                flexWrap: 'nowrap',
+                width: '100%',
+                maxWidth: '100%',
+                padding: '20px',
+            };
+        }
+        // 태블릿
+        else if (windowWidth >= 390) {
+            return {
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'flex-start',
+                alignItems: 'center',
+                gap: '30px',
+                width: '100%',
+                maxWidth: '100%',
+                padding: '20px',
+                overflowY: 'auto',
+                maxHeight: '90vh',
+            };
+        }
+        // 모바일
+        else {
+            return {
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'flex-start',
+                alignItems: 'center',
+                gap: '20px',
+                width: '100%',
+                maxWidth: '100%',
+                padding: '20px',
+                overflowY: 'auto',
+                maxHeight: '90vh',
+            };
+        }
+    };
+
+    // 화면 크기에 따라 아이템 크기를 결정하는 함수
+    const getItemSize = () => {
+        if (windowWidth >= 1024) {
+            return {
+                width: '250px',
+                height: '250px',
+            };
+        } else if (windowWidth >= 390) {
+            return {
+                width: '250px',
+                height: '250px',
+            };
+        } else {
+            return {
+                width: '250px',
+                height: '250px',
+            };
+        }
+    };
 
     return (
         <div
@@ -143,7 +244,7 @@ const Portfolio = () => {
                 height: '100vh',
                 margin: '0 auto',
                 position: 'relative',
-                overflow: 'hidden',
+                overflowY: 'auto',
                 backgroundColor: 'black',
                 display: 'flex',
                 alignItems: 'center',
@@ -153,23 +254,25 @@ const Portfolio = () => {
             {/* Background Video Component */}
             <div
                 style={{
-                    position: 'absolute',
+                    position: 'fixed',
                     inset: 0,
                     width: '100%',
                     height: '100%',
+                    zIndex: 10,
                 }}
             >
                 <BackgroundVideo category={activeVideoCategory} />
             </div>
 
+            {/* CollageLayout 컴포넌트 추가 */}
+            <div style={{ position: 'fixed', inset: 0, zIndex: 15 }}>
+                <CollageLayout />
+            </div>
+
             {/* Portfolio Items */}
             <div
                 style={{
-                    display: 'flex',
-                    flexDirection: 'row',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    gap: '50px',
+                    ...getContainerStyles(),
                     position: 'relative',
                     zIndex: 20,
                 }}
@@ -185,6 +288,7 @@ const Portfolio = () => {
                             flexDirection: 'column',
                             alignItems: 'center',
                             cursor: item.url ? 'pointer' : 'default',
+                            margin: '10px 0',
                         }}
                         onMouseEnter={() => handleItemHover(index)}
                         onMouseLeave={() => handleItemHover(null)}
@@ -196,8 +300,7 @@ const Portfolio = () => {
                     >
                         <div
                             style={{
-                                width: '250px',
-                                height: '250px',
+                                ...getItemSize(),
                                 transformStyle: 'preserve-3d',
                                 overflow: 'hidden',
                                 borderRadius: '8px',
@@ -238,14 +341,24 @@ const Portfolio = () => {
                                     style={{
                                         color: 'white',
                                         fontWeight: 'bold',
-                                        fontSize: '1.5rem',
+                                        fontSize: windowWidth < 1024 ? '1.2rem' : '1.5rem',
                                         marginBottom: '8px',
+                                        textAlign: 'center',
+                                        padding: '0 10px',
                                     }}
                                 >
                                     {item.title}
                                 </span>
                                 {item.url && (
-                                    <span style={{ color: '#4fc3f7', fontSize: '1rem' }}>Click to visit project</span>
+                                    <span
+                                        style={{
+                                            color: '#4fc3f7',
+                                            fontSize: windowWidth < 1024 ? '0.9rem' : '1rem',
+                                            textAlign: 'center',
+                                        }}
+                                    >
+                                        Click to visit project
+                                    </span>
                                 )}
                             </div>
                         </div>
