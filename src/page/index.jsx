@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState, useCallback } from 'react';
 import BackgroundVideo from './background';
 import CollageLayout from './CollageLayout';
+import ProfileDetails from './ProjectDetails';
 
 const Portfolio = () => {
     // Fixed image paths
@@ -362,6 +363,9 @@ const Portfolio = () => {
                                 )}
                             </div>
                         </div>
+                        {/* <div>
+                            <ProfileDetails />
+                        </div> */}
                     </div>
                 ))}
             </div>
