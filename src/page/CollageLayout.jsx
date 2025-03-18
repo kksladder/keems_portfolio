@@ -56,44 +56,38 @@ const CollageLayout = () => {
     return (
         <CollageContainer>
             {/* 상단 음식 이미지들 - 수정된 SpinningRamen 컴포넌트 사용 */}
-            <ImageWrapper styles={{ top: 0, left: 0, width: '250px' }} zIndex={5}>
+            <ImageWrapper styles={{ top: -150, left: -10, width: '200px' }} zIndex={5}>
                 <SpinningRamen />
             </ImageWrapper>
 
-            <ImageWrapper styles='top: 0; left:75%; width: 300px;' zIndex={5}>
+            <ImageWrapper styles='top: -7%; left:75%; width: 200px;' zIndex={5}>
                 <AnimatedImage
                     src='/public/image/slicepizza.png'
                     alt='조각피자'
-                    animationType='slideTop'
+                    animationType='float'
                     duration={1}
-                    delay={0.6}
+                    delay={1}
                 />
             </ImageWrapper>
-            <ImageWrapper styles='top: 0; left:65%; width: 300px;' zIndex={5}>
-                <AnimatedImage
-                    src='/image/hamburger.png'
-                    alt='햄버거'
-                    animationType='slideRight'
-                    duration={1}
-                    delay={0.6}
-                />
+            <ImageWrapper styles='top: -20%; left:60%; width: 300px;' zIndex={5}>
+                <AnimatedImage src='/image/hamburger.png' alt='햄버거' animationType='shake' duration={5} delay={0.6} />
             </ImageWrapper>
 
-            <ImageWrapper styles='top: 0; right: 0; width: 250px;' zIndex={5}>
-                <AnimatedImage src='/image/pizza.png' alt='피자' animationType='spin' duration={3} delay={0.5} />
+            <ImageWrapper styles='top: -15%; right: -1%; width: 250px;' zIndex={5}>
+                <AnimatedImage src='/image/pizza.png' alt='피자' animationType='spin' duration={10} delay={0.5} />
             </ImageWrapper>
 
             {/* 상단에 Palace, Supreme 로고 */}
             <ImageWrapper
-                styles='top: 1%; left: 50%; transform: translateX(-45%) rotate(0deg); width: 400px;'
+                styles='top: -20%; left: 50%; transform: translateX(-45%) rotate(0deg); width: 400px;'
                 zIndex={5}
             >
                 <AnimatedImage
                     src='/image/palace.png'
                     alt='Palace 로고'
-                    animationType='spin'
-                    duration={1.2}
-                    delay={1.0}
+                    animationType={['spin', 'zoom']} // 애니메이션 배열로 전달
+                    duration={[1, 0.5]} // 각 애니메이션별 지속 시간
+                    delay={[5, 1.0]} // 각 애니메이션별 지연 시간
                 />
             </ImageWrapper>
 
@@ -101,28 +95,28 @@ const CollageLayout = () => {
                 <AnimatedImage
                     src='/image/supreme.png'
                     alt='Supreme 로고'
-                    animationType='slideTop'
-                    duration={1.2}
-                    delay={1.2}
+                    animationType='continuousSlide'
+                    duration={7}
+                    delay={0}
                 />
             </ImageWrapper>
 
             {/* 공룡 이미지들 - 좌측 하단 */}
-            <ImageWrapper styles='top:40%; right:82%; width: 500px;' zIndex={5}>
+            <ImageWrapper styles='top:40%; right:86%; width: 500px;' zIndex={5}>
                 <AnimatedImage
                     src='/public/image/indiarapture2.png'
                     alt='공룡1'
-                    animationType='slideLeft'
-                    duration={1.5}
+                    animationType='shake'
+                    duration={15}
                     delay={1.4}
                 />
             </ImageWrapper>
 
-            <ImageWrapper styles='bottom: 15%; width: 400px;' zIndex={4}>
-                <AnimatedImage src='/image/blue.png' alt='공룡1' animationType='slideLeft' duration={1.5} delay={1.4} />
+            <ImageWrapper styles='bottom: 15%; right: 85%; width: 400px; transform: rotate(15deg);' zIndex={4}>
+                <AnimatedImage src='/image/blue.png' alt='공룡1' animationType='float' duration={1.5} delay={1.4} />
             </ImageWrapper>
 
-            <ImageWrapper styles='bottom: 0%; left: 9%; width: 450px;' zIndex={5}>
+            <ImageWrapper styles='bottom: 0%; left: -5%; width: 450px;' zIndex={2}>
                 <AnimatedImage
                     src='/image/solo.png'
                     alt='카일로렌'
@@ -131,8 +125,25 @@ const CollageLayout = () => {
                     delay={1.6}
                 />
             </ImageWrapper>
-
-            <ImageWrapper styles='bottom: -17%; left: 25%; width: 350px;' zIndex={4}>
+            <ImageWrapper styles='bottom: -14%; left: 62%; width: 450px;' zIndex={1}>
+                <AnimatedImage
+                    src='/image/nike.png'
+                    alt='나이키'
+                    animationType='slideLeft'
+                    duration={1.5}
+                    delay={1.6}
+                />
+            </ImageWrapper>
+            <ImageWrapper styles='bottom: -14%; right: 63%; width: 300px;' zIndex={2}>
+                <AnimatedImage
+                    src='/public/image/fragment.png'
+                    alt='프라그먼트'
+                    animationType='slideLeft'
+                    duration={1.5}
+                    delay={1.6}
+                />
+            </ImageWrapper>
+            <ImageWrapper styles='bottom: -28%; left: 10%; width: 350px;' zIndex={1}>
                 <AnimatedImage
                     src='/public/image/ramge.png'
                     alt='다람쥐'
@@ -149,21 +160,21 @@ const CollageLayout = () => {
             ></ImageWrapper>
 
             {/* 스타워즈 캐릭터 - 우측 하단 */}
-            <ImageWrapper styles='bottom: -10%; left: 75%; width: 450px;' zIndex={4}>
+            <ImageWrapper styles='bottom: -10%; left: 85%; width: 450px;' zIndex={4}>
                 <AnimatedImage
                     src='/image/vader1.png'
                     alt='다스베이더1'
-                    animationType='slideBottom'
+                    animationType='pulse'
                     duration={1.3}
-                    delay={2.2}
+                    delay={0.5}
                 />
             </ImageWrapper>
-            <ImageWrapper styles='bottom: -3%; right: 30%; width: 550px;' zIndex={5}>
+            <ImageWrapper styles='bottom: -3%; right: 5%; width: 550px;' zIndex={3}>
                 <AnimatedImage
                     src='/public/image/indiarapture.png'
                     alt='랩터'
-                    animationType='slideBottom'
-                    duration={1.3}
+                    animationType='shake'
+                    duration={2}
                     delay={2.2}
                 />
             </ImageWrapper>
@@ -172,14 +183,14 @@ const CollageLayout = () => {
                 <AnimatedImage
                     src='/image/vader2.png'
                     alt='다스베이더2'
-                    animationType='slideBottom'
+                    animationType='zoom'
                     duration={1.3}
-                    delay={2.4}
+                    delay={1}
                 />
             </ImageWrapper>
 
             <ImageWrapper styles='bottom: 30%; right: -3%; width: 300px;' zIndex={5}>
-                <AnimatedImage src='/image/head.png' alt='머리' animationType='slideRight' duration={1.3} delay={2.6} />
+                <AnimatedImage src='/image/head.png' alt='머리' animationType='float' duration={1.3} delay={2.6} />
             </ImageWrapper>
         </CollageContainer>
     );

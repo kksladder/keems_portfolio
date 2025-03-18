@@ -3,7 +3,7 @@ import React, { useRef, useEffect, useState, useCallback } from 'react';
 const BackgroundVideo = ({ category = 'default' }) => {
     // Store the current active video category
     const [activeCategory, setActiveCategory] = useState(category);
-    // Reference for interval timer
+    // Reference for interval timer - 더 이상 필요하지 않지만 안전을 위해 유지
     const intervalRef = useRef(null);
     // Track if the YouTube API is ready
     const [ytApiReady, setYtApiReady] = useState(false);
@@ -30,34 +30,15 @@ const BackgroundVideo = ({ category = 'default' }) => {
         oheshio: { start: 97, end: 180 },
     };
 
-    // 비디오 순환 배열
-    const videoCycle = ['default', 'playstation', 'hyukoh', 'reelpick', 'oheshio'];
-
-    // 다음 비디오로 순환하는 함수
-    const cycleToNextVideo = useCallback(() => {
-        // 현재 카테고리가 hover에서 온 것이 아닐 때만 순환
-        if (category === 'default') {
-            const currentIndex = videoCycle.indexOf(activeCategory);
-            const nextIndex = (currentIndex + 1) % videoCycle.length;
-            setActiveCategory(videoCycle[nextIndex]);
-        }
-    }, [activeCategory, category]);
-
-    // 자동 순환 시작/중지 함수
-    const startVideoCycle = useCallback(() => {
-        // 이전 인터벌 제거
-        if (intervalRef.current) {
-            clearInterval(intervalRef.current);
-        }
-        intervalRef.current = setInterval(cycleToNextVideo, 10000);
-    }, [cycleToNextVideo]);
-
     // category prop이 변경될 때 activeCategory 업데이트
     useEffect(() => {
         console.log(`Prop category changed to: ${category}`);
-        // category가 default가 아니면 (hover 상태) activeCategory를 업데이트
+        // hover 상태일 때 activeCategory를 업데이트
         if (category !== 'default') {
             setActiveCategory(category);
+        } else {
+            // category가 'default'로 돌아오면 activeCategory도 'default'로 설정
+            setActiveCategory('default');
         }
     }, [category]);
 
@@ -280,13 +261,10 @@ const BackgroundVideo = ({ category = 'default' }) => {
                     playersReadyRef.current[key] = false;
                 }
             });
-
-            // Start video cycle after players are initialized
-            startVideoCycle();
         };
 
         initializePlayers();
-    }, [ytApiReady, activeCategory, safeControlPlayer, startVideoCycle]);
+    }, [ytApiReady, activeCategory, safeControlPlayer]);
 
     // Handle activeCategory changes (whether from hover or auto-cycle)
     useEffect(() => {
