@@ -29,7 +29,7 @@ const Portfolio = () => {
         {
             id: 4,
             title: 'Renewal',
-            imageUrl: '/image/profile-1.jpeg',
+            imageUrl: '/image/oheshio.png',
             url: 'https://oheshiorenewal.vercel.app/',
             videoCategory: 'oheshio',
         },
@@ -225,13 +225,13 @@ const Portfolio = () => {
             };
         } else if (windowWidth >= 390) {
             return {
-                width: '250px',
-                height: '250px',
+                width: '200px',
+                height: '200px',
             };
         } else {
             return {
-                width: '250px',
-                height: '250px',
+                width: '160px',
+                height: '160px',
             };
         }
     };

@@ -71,49 +71,49 @@ const pulse = keyframes`
 
 // 회전이 추가된 slideLeft 애니메이션
 const slideLeftRotate = keyframes`
-  from { 
-    transform: translateX(-50px) rotate(-15deg); 
-    opacity: 0; 
+  from {
+    transform: translateX(-50px) rotate(-15deg);
+    opacity: 0;
   }
-  to { 
-    transform: translateX(0) rotate(0deg); 
-    opacity: 1; 
+  to {
+    transform: translateX(0) rotate(0deg);
+    opacity: 1;
   }
 `;
 
 // 회전이 추가된 slideRight 애니메이션
 const slideRightRotate = keyframes`
-  from { 
-    transform: translateX(50px) rotate(15deg); 
-    opacity: 0; 
+  from {
+    transform: translateX(50px) rotate(15deg);
+    opacity: 0;
   }
-  to { 
-    transform: translateX(0) rotate(0deg); 
-    opacity: 1; 
+  to {
+    transform: translateX(0) rotate(0deg);
+    opacity: 1;
   }
 `;
 
 // 회전이 추가된 slideTop 애니메이션
 const slideTopRotate = keyframes`
-  from { 
-    transform: translateY(-50px) rotate(-15deg); 
-    opacity: 0; 
+  from {
+    transform: translateY(-50px) rotate(-15deg);
+    opacity: 0;
   }
-  to { 
-    transform: translateY(0) rotate(0deg); 
-    opacity: 1; 
+  to {
+    transform: translateY(0) rotate(0deg);
+    opacity: 1;
   }
 `;
 
 // 회전이 추가된 slideBottom 애니메이션
 const slideBottomRotate = keyframes`
-  from { 
-    transform: translateY(50px) rotate(15deg); 
-    opacity: 0; 
+  from {
+    transform: translateY(50px) rotate(15deg);
+    opacity: 0;
   }
-  to { 
-    transform: translateY(0) rotate(0deg); 
-    opacity: 1; 
+  to {
+    transform: translateY(0) rotate(0deg);
+    opacity: 1;
   }
 `;
 
@@ -204,46 +204,46 @@ const getAnimationCSS = (type, duration, delay) => {
 const createRotatedKeyframe = (baseType, rotationDeg) => {
     if (baseType === 'slideLeft') {
         return keyframes`
-            from { 
-                transform: translateX(-50px) rotate(${rotationDeg}deg); 
-                opacity: 0; 
+            from {
+                transform: translateX(-50px) rotate(${rotationDeg}deg);
+                opacity: 0;
             }
-            to { 
-                transform: translateX(0) rotate(0deg); 
-                opacity: 1; 
+            to {
+                transform: translateX(0) rotate(0deg);
+                opacity: 1;
             }
         `;
     } else if (baseType === 'slideRight') {
         return keyframes`
-            from { 
-                transform: translateX(50px) rotate(${rotationDeg}deg); 
-                opacity: 0; 
+            from {
+                transform: translateX(50px) rotate(${rotationDeg}deg);
+                opacity: 0;
             }
-            to { 
-                transform: translateX(0) rotate(0deg); 
-                opacity: 1; 
+            to {
+                transform: translateX(0) rotate(0deg);
+                opacity: 1;
             }
         `;
     } else if (baseType === 'slideTop') {
         return keyframes`
-            from { 
-                transform: translateY(-50px) rotate(${rotationDeg}deg); 
-                opacity: 0; 
+            from {
+                transform: translateY(-50px) rotate(${rotationDeg}deg);
+                opacity: 0;
             }
-            to { 
-                transform: translateY(0) rotate(0deg); 
-                opacity: 1; 
+            to {
+                transform: translateY(0) rotate(0deg);
+                opacity: 1;
             }
         `;
     } else if (baseType === 'slideBottom') {
         return keyframes`
-            from { 
-                transform: translateY(50px) rotate(${rotationDeg}deg); 
-                opacity: 0; 
+            from {
+                transform: translateY(50px) rotate(${rotationDeg}deg);
+                opacity: 0;
             }
-            to { 
-                transform: translateY(0) rotate(0deg); 
-                opacity: 1; 
+            to {
+                transform: translateY(0) rotate(0deg);
+                opacity: 1;
             }
         `;
     }
@@ -383,7 +383,7 @@ const AnimatedImg = styled.img`
 
         return null;
     }}
-    
+
     transform-origin: center;
 `;
 
