@@ -1,7 +1,5 @@
-// components/SkillsSection.js
 import React from 'react';
 
-// 기술 스택 아이콘들 import
 import { FaReact, FaNodeJs, FaHtml5, FaCss3Alt, FaGitAlt } from 'react-icons/fa';
 import {
     SiJavascript,

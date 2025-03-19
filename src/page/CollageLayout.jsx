@@ -98,10 +98,10 @@ const CollageLayout = () => {
                 styles={{ top: -150, left: -10, width: '200px' }}
                 zIndex={5}
                 customStyles1440='top: -120px; left: -5px;'
-                customStyles1024='top: -100px; left: 0px;'
-                customStyles768='top: -80px; left: 5px;'
-                customStyles480='top: -60px; left: 10px;'
-                customStyles390='top: -50px; left: 12px;'
+                customStyles1024='top: -140px; left: 0px;'
+                customStyles768='top: -140px; left: 5px;'
+                customStyles480='top: -135px; left: -95px;'
+                customStyles390='top: -135px; left: -75px;'
             >
                 <SpinningRamen />
             </ImageWrapper>
@@ -110,11 +110,11 @@ const CollageLayout = () => {
             <ImageWrapper
                 styles='top: 4%; left:75%; width: 200px;'
                 zIndex={5}
-                customStyles1440='left: 70%;'
-                customStyles1024='left: 65%;'
-                customStyles768='left: 60%; top: 3%;'
-                customStyles480='left: 55%; top: 3%;'
-                customStyles390='left: 52%; top: 2%;'
+                customStyles1440='top: 4%; left: 72%;'
+                customStyles1024='top: 20%; left: 66%;'
+                customStyles768='top: 20%; left: 60%;'
+                customStyles480='left: 65%; top: 3%;'
+                customStyles390='left: 62%; top: 2%;'
             >
                 <AnimatedImage
                     src='/image/slicepizza.png'
@@ -129,11 +129,11 @@ const CollageLayout = () => {
             <ImageWrapper
                 styles='top: -20%; left:60%; width: 300px;'
                 zIndex={5}
-                customStyles1440='top: -15%; left: 55%;'
-                customStyles1024='top: -10%; left: 50%;'
-                customStyles768='top: -5%; left: 45%;'
-                customStyles480='top: 0%; left: 40%;'
-                customStyles390='top: 2%; left: 38%;'
+                customStyles1440='top: -22%; left: 55%;'
+                customStyles1024='top: -8%; left: 64%;'
+                customStyles768='top: -5%; left: 67%;'
+                customStyles480='top: 10%; left: 55%;'
+                customStyles390='top: 2%; left: 50%;'
             >
                 <AnimatedImage src='/image/hamburger.png' alt='햄버거' animationType='shake' duration={5} delay={0.6} />
             </ImageWrapper>
@@ -142,11 +142,11 @@ const CollageLayout = () => {
             <ImageWrapper
                 styles='top: -15%; right: -1%; width: 250px;'
                 zIndex={5}
-                customStyles1440='right: -2%;'
+                customStyles1440='top: -15%; right: -2%;'
                 customStyles1024='right: -3%;'
-                customStyles768='right: -4%; top: -12%;'
-                customStyles480='right: -5%; top: -10%;'
-                customStyles390='right: -3%; top: -8%;'
+                customStyles768='right: -4%; top: -13%;'
+                customStyles480='right: -25%; top: -13%;'
+                customStyles390='right: -25%; top: -13%;'
             >
                 <AnimatedImage src='/image/pizza.png' alt='피자' animationType='spin' duration={10} delay={0.5} />
             </ImageWrapper>
@@ -155,10 +155,10 @@ const CollageLayout = () => {
             <ImageWrapper
                 styles='top: -20%; left: 50%; transform: translateX(-45%) rotate(0deg); width: 400px;'
                 zIndex={5}
-                customStyles1440='left: 48%; width: 350px;'
+                customStyles1440='left: 35%; width: 350px;'
                 customStyles1024='left: 46%; width: 300px;'
                 customStyles768='left: 44%; width: 250px; top: -15%;'
-                customStyles480='left: 42%; width: 200px; top: -12%;'
+                customStyles480='left: 42%; width: 300px; top: -12%;'
                 customStyles390='left: 40%; width: 180px; top: -10%;'
             >
                 <AnimatedImage
@@ -174,10 +174,10 @@ const CollageLayout = () => {
                 styles='top:-10%; left: 8%; transform: translateX(-50%); width: 300px;'
                 zIndex={5}
                 customStyles1440='left: 10%; width: 250px;'
-                customStyles1024='left: 12%; width: 200px;'
+                customStyles1024='top:-8%; left: 12%; width: 200px;'
                 customStyles768='left: 14%; width: 180px; top: -8%;'
                 customStyles480='left: 16%; width: 150px; top: -6%;'
-                customStyles390='left: 15%; width: 140px; top: -5%;'
+                customStyles390='left: 15%; width: 300px; top: -13%;'
             >
                 <AnimatedImage
                     src='/image/supreme.png'
@@ -193,10 +193,10 @@ const CollageLayout = () => {
                 styles='top:40%; right:86%; width: 500px;'
                 zIndex={5}
                 customStyles1440='right: 84%; width: 450px;'
-                customStyles1024='right: 82%; width: 400px;'
-                customStyles768='right: 75%; width: 350px; top: 38%;'
-                customStyles480='right: 70%; width: 300px; top: 36%;'
-                customStyles390='right: 65%; width: 280px; top: 35%;'
+                customStyles1024='bottom: -75%; right: 70%; width: 400px;'
+                customStyles768='right: 47%; width: 450px; top: 30%;'
+                customStyles480='right: 10%; width: 750px; top: 9%;'
+                customStyles390='right: -35%; width: 1000px; top: -3%;'
             >
                 <AnimatedImage
                     src='/image/indiarapture2.png'
@@ -210,23 +210,23 @@ const CollageLayout = () => {
             <ImageWrapper
                 styles='bottom: 15%; right: 85%; width: 400px; transform: rotate(15deg);'
                 zIndex={4}
-                customStyles1440='right: 83%; width: 350px;'
-                customStyles1024='right: 81%; width: 300px;'
+                customStyles1440='right: 80%; width: 350px;'
+                customStyles1024='right: 77%; width: 300px;'
                 customStyles768='right: 74%; width: 250px; bottom: 12%;'
-                customStyles480='right: 68%; width: 220px; bottom: 10%;'
-                customStyles390='right: 62%; width: 200px; bottom: 8%;'
+                customStyles480='right: 40%; width: 400px; bottom: 10%;'
+                customStyles390='right: -28%; width: 800px; bottom: -10%;'
             >
                 <AnimatedImage src='/image/blue.png' alt='공룡1' animationType='float' duration={1.5} delay={1.4} />
             </ImageWrapper>
 
             <ImageWrapper
                 styles='bottom: 0%; left: -5%; width: 450px;'
-                zIndex={2}
-                customStyles1440='left: -4%; width: 400px;'
-                customStyles1024='left: -3%; width: 350px;'
-                customStyles768='left: -2%; width: 300px; bottom: 0%;'
-                customStyles480='left: -1%; width: 250px; bottom: 0%;'
-                customStyles390='left: 0%; width: 220px; bottom: 0%;'
+                zIndex={1}
+                customStyles1440='width: 400px;'
+                customStyles1024='top: 1%; left: -3%; width: 350px;'
+                customStyles768='left: -15%; width: 500px; bottom: 0%;'
+                customStyles480='left: -30%; top: -20%; width: 500px; bottom: 0%;'
+                customStyles390='left: -85%; width: 800px; bottom: 43%;'
             >
                 <AnimatedImage
                     src='/image/solo.png'
@@ -243,8 +243,8 @@ const CollageLayout = () => {
                 customStyles1440='left: 60%; width: 400px;'
                 customStyles1024='left: 58%; width: 350px;'
                 customStyles768='left: 56%; width: 300px; bottom: -8%;'
-                customStyles480='left: 54%; width: 250px; bottom: -6%;'
-                customStyles390='left: 52%; width: 220px; bottom: -5%;'
+                customStyles480='top: 55%; left: 54%; width: 300px; bottom: -6%;'
+                customStyles390='left: -25%; width: 750px; bottom: 19%;'
             >
                 <AnimatedImage src='/image/nike.png' alt='나이키' animationType='float' duration={1.5} delay={1.6} />
             </ImageWrapper>
@@ -253,10 +253,10 @@ const CollageLayout = () => {
                 styles='bottom: -14%; right: 63%; width: 300px;'
                 zIndex={2}
                 customStyles1440='right: 61%; width: 250px;'
-                customStyles1024='right: 59%; width: 220px;'
+                customStyles1024='top: 86%; left: 10%; right: 59%; width: 220px;'
                 customStyles768='right: 57%; width: 200px; bottom: -12%;'
-                customStyles480='right: 55%; width: 180px; bottom: -10%;'
-                customStyles390='right: 53%; width: 160px; bottom: -8%;'
+                customStyles480='left: -16%; width: 250px; bottom: -10%;'
+                customStyles390='left: -55%; width: 500px; bottom: 8%;'
             >
                 <AnimatedImage src='/image/fragment.png' alt='프라그먼트' animationType='spin' duration={8} delay={1} />
             </ImageWrapper>
@@ -265,10 +265,10 @@ const CollageLayout = () => {
                 styles='bottom: -14%; left: 35%; width: 300px;'
                 zIndex={2}
                 customStyles1440='left: 33%; width: 250px;'
-                customStyles1024='left: 31%; width: 220px;'
-                customStyles768='left: 29%; width: 200px; bottom: -12%;'
-                customStyles480='left: 27%; width: 180px; bottom: -10%;'
-                customStyles390='left: 25%; width: 160px; bottom: -8%;'
+                customStyles1024='top: 86%; left: 25%; width: 220px;'
+                customStyles768='left: 22%; width: 200px; bottom: -12%;'
+                customStyles480='left: -1%; width: 250px; bottom: -10%;'
+                customStyles390='left: -35%; width: 500px; bottom: 8%;'
             >
                 <AnimatedImage src='/image/cavempt2.png' alt='카브엠트' animationType='spin' duration={8} delay={1} />
             </ImageWrapper>
@@ -277,10 +277,10 @@ const CollageLayout = () => {
                 styles='bottom: -20%; left: 51%; width: 300px;'
                 zIndex={5}
                 customStyles1440='left: 49%; width: 250px;'
-                customStyles1024='left: 47%; width: 220px;'
+                customStyles1024='top: 63%; left: 47%; width: 220px;'
                 customStyles768='left: 45%; width: 200px; bottom: -18%;'
                 customStyles480='left: 43%; width: 180px; bottom: -15%;'
-                customStyles390='left: 41%; width: 160px; bottom: -13%;'
+                customStyles390='left: 41%; width: 350px; bottom: -17%;'
             >
                 <AnimatedImage src='/image/goondi.png' alt='궁디' animationType='zoom' duration={1} delay={1} />
             </ImageWrapper>
@@ -289,10 +289,10 @@ const CollageLayout = () => {
                 styles='bottom: -28%; left: 10%; width: 350px;'
                 zIndex={1}
                 customStyles1440='left: 8%; width: 300px;'
-                customStyles1024='left: 6%; width: 250px;'
-                customStyles768='left: 6%; width: 220px; bottom: -25%;'
-                customStyles480='left: 5%; width: 190px; bottom: -22%;'
-                customStyles390='left: 4%; width: 170px; bottom: -20%;'
+                customStyles1024='top: 65%; left: -5%; width: 250px;'
+                customStyles768='left: 0%; width: 220px; bottom: -25%;'
+                customStyles480='left: 5%; width: 300px; bottom: 30%;'
+                customStyles390='left: 4%; width: 350px; bottom: -20%;'
             >
                 <AnimatedImage src='/image/ramge.png' alt='다람쥐' animationType='shake' duration={5} delay={1.8} />
             </ImageWrapper>
@@ -301,11 +301,11 @@ const CollageLayout = () => {
             <ImageWrapper
                 styles='bottom: -10%; left: 85%; width: 450px;'
                 zIndex={4}
-                customStyles1440='left: 83%; width: 400px;'
+                customStyles1440='top: 70%; width: 400px;'
                 customStyles1024='left: 81%; width: 350px;'
                 customStyles768='left: 75%; width: 300px; bottom: -8%;'
-                customStyles480='left: 72%; width: 270px; bottom: -6%;'
-                customStyles390='left: 70%; width: 240px; bottom: -4%;'
+                customStyles480='left: 45%; width: 450px; bottom: 17%;'
+                customStyles390='left: 7%; width: 700px; bottom: 64%;'
             >
                 <AnimatedImage
                     src='/image/vader1.png'
@@ -319,9 +319,9 @@ const CollageLayout = () => {
             <ImageWrapper
                 styles='bottom: -3%; right: 5%; width: 550px;'
                 zIndex={3}
-                customStyles1440='right: 3%; width: 500px;'
+                customStyles1440='bottom: -5%; width: 500px;'
                 customStyles1024='right: 1%; width: 450px;'
-                customStyles768='right: 0%; width: 400px; bottom: -2%;'
+                customStyles768='right: -8%; width: 400px; bottom: 12%;'
                 customStyles480='right: 0%; width: 350px; bottom: -1%;'
                 customStyles390='right: 0%; width: 320px; bottom: 0%;'
             >
@@ -338,10 +338,10 @@ const CollageLayout = () => {
                 styles='bottom: -1%; right: 0; width: 500px;'
                 zIndex={1}
                 customStyles1440='right: -2%; width: 450px;'
-                customStyles1024='right: -4%; width: 400px;'
-                customStyles768='right: -5%; width: 350px; bottom: 0%;'
-                customStyles480='right: -4%; width: 320px; bottom: 0%;'
-                customStyles390='right: -3%; width: 280px; bottom: 0%;'
+                customStyles1024='top: 16%; right: -4%; width: 400px;'
+                customStyles768='right: -9%; width: 400px; top: 8%;'
+                customStyles480='right: -44%; width: 550px; bottom: 80%;'
+                customStyles390='right: -85%; width: 800px; bottom: 45%;'
             >
                 <AnimatedImage
                     src='/image/vader2.png'
@@ -355,11 +355,11 @@ const CollageLayout = () => {
             <ImageWrapper
                 styles='bottom: 30%; right: -3%; width: 300px;'
                 zIndex={5}
-                customStyles1440='right: -2%; width: 250px;'
-                customStyles1024='right: -1%; width: 220px;'
-                customStyles768='right: 0%; width: 200px; bottom: 27%;'
-                customStyles480='right: 1%; width: 180px; bottom: 25%;'
-                customStyles390='right: 0%; width: 160px; bottom: 23%;'
+                customStyles1440='right: -5%; width: 250px;'
+                customStyles1024='right: -5%; width: 220px;'
+                customStyles768='right: -9%; width: 250px; bottom: 27%;'
+                customStyles480='right: -40%; width: 500px; bottom: 4%;'
+                customStyles390='left: -15%; width: 750px; bottom: -16%;'
             >
                 <AnimatedImage src='/image/head.png' alt='머리' animationType='float' duration={1.3} delay={2.6} />
             </ImageWrapper>

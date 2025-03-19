@@ -1,7 +1,16 @@
 import React, { useEffect, useRef, useState, useCallback } from 'react';
 import BackgroundVideo from './background';
 import CollageLayout from './CollageLayout';
-import ProfileDetails from './ProjectDetails';
+import { FaReact, FaHtml5, FaCss3Alt, FaNodeJs, FaGithub } from 'react-icons/fa';
+import {
+    SiJavascript,
+    SiNextdotjs,
+    SiTailwindcss,
+    SiRedux,
+    SiStyledcomponents,
+    SiVite,
+    SiChakraui,
+} from 'react-icons/si';
 
 const Portfolio = () => {
     // Fixed image paths
@@ -146,23 +155,6 @@ const Portfolio = () => {
             });
         },
         [hovered]
-    );
-
-    // Handle hovering over portfolio items
-    const handleItemHover = useCallback(
-        (index) => {
-            console.log(
-                `Hovering item: ${index}, category: ${index !== null ? portfolioItems[index].videoCategory : 'default'}`
-            );
-            setHovered(index);
-
-            if (index !== null) {
-                setActiveVideoCategory(portfolioItems[index].videoCategory);
-            } else {
-                setActiveVideoCategory('default');
-            }
-        },
-        [portfolioItems]
     );
 
     // Set up event listeners and global styles
@@ -446,35 +438,30 @@ const Portfolio = () => {
 
         // Enhanced hover handler with timeout
         const handleItemHover = (index) => {
-            console.log(`Hover state changed to: ${index}`); // Add this to debug
-            // Set the hovered state for image effects immediately
-            setHovered(index);
+            console.log(`Hover state changed to: ${index}`);
 
-            // Update the video category when hovering
-            if (index !== null) {
-                setActiveVideoCategory(portfolioItems[index].videoCategory);
-            } else {
-                // Small delay before reverting to default video to avoid flickering
-                setTimeout(() => {
-                    if (hovered === null) {
-                        setActiveVideoCategory('default');
-                    }
-                }, 300);
-            }
+            // Set the hovered state for image effects
+            setHovered(index);
 
             // Clear any existing timeout
             if (timeoutRef.current) {
                 clearTimeout(timeoutRef.current);
+                timeoutRef.current = null;
             }
 
             if (index !== null) {
-                // When hovering, show the link right away
+                // When hovering, update video immediately
+                setActiveVideoCategory(portfolioItems[index].videoCategory);
+                // Show link right away
                 setVisibleLink(index);
             } else {
-                // When leaving, set a timeout before hiding the link
+                // When leaving, set a timeout for reverting back
                 timeoutRef.current = setTimeout(() => {
+                    // Default video should play when nothing is hovered
+                    console.log('타임아웃 실행: 기본 영상으로 변경');
+                    setActiveVideoCategory('default');
                     setVisibleLink(null);
-                }, 2000); // 2 seconds delay
+                }, 300); // short delay to avoid flickering
             }
         };
 
@@ -720,14 +707,65 @@ const Portfolio = () => {
         );
     };
 
-    // 기술 섹션 렌더링
     const renderSkillsSection = () => {
+        // Playstation이 맨 앞에 보이도록 프로젝트 순서 조정
+        // 각 프로젝트별 기술 스택 정의
+        const projects = [
+            {
+                name: 'Playstation',
+                skills: [
+                    { name: 'HTML5', Icon: FaHtml5, color: '#E34F26' },
+                    { name: 'CSS3', Icon: FaCss3Alt, color: '#1572B6' },
+                    { name: 'JavaScript', Icon: SiJavascript, color: '#F7DF1E' },
+                    { name: 'GitHub', Icon: FaGithub, color: '#eeeeee' },
+                ],
+            },
+            {
+                name: 'Hyukoh',
+                skills: [
+                    { name: 'Next.js', Icon: SiNextdotjs, color: '#eeeeee' },
+                    { name: 'Tailwind CSS', Icon: SiTailwindcss, color: '#06B6D4' },
+                    { name: 'Chakra UI', Icon: SiChakraui, color: '#319795' },
+                    { name: 'GitHub', Icon: FaGithub, color: '#eeeeee' },
+                ],
+            },
+            {
+                name: 'Reelpick',
+                skills: [
+                    { name: 'HTML5', Icon: FaHtml5, color: '#E34F26' },
+                    { name: 'CSS3', Icon: FaCss3Alt, color: '#1572B6' },
+                    { name: 'React', Icon: FaReact, color: '#61DAFB' },
+                    { name: 'Vite', Icon: SiVite, color: '#646CFF' },
+                    { name: 'JavaScript', Icon: SiJavascript, color: '#F7DF1E' },
+                    { name: 'Styled-Components', Icon: SiStyledcomponents, color: '#DB7093' },
+                    { name: 'GitHub', Icon: FaGithub, color: '#eeeeee' },
+                ],
+            },
+            {
+                name: 'Oheshio',
+                skills: [
+                    { name: 'React', Icon: FaReact, color: '#61DAFB' },
+                    { name: 'Vite', Icon: SiVite, color: '#646CFF' },
+                    { name: 'Redux Toolkit', Icon: SiRedux, color: '#764ABC' },
+                    { name: 'Styled-Components', Icon: SiStyledcomponents, color: '#DB7093' },
+                    { name: 'JavaScript', Icon: SiJavascript, color: '#F7DF1E' },
+                    { name: 'Tailwind CSS', Icon: SiTailwindcss, color: '#06B6D4' },
+                    { name: 'GitHub', Icon: FaGithub, color: '#eeeeee' },
+                ],
+            },
+        ];
+
+        // 종합적인 기술 스택 레벨
         const skills = [
-            { name: 'React', level: 90 },
-            { name: 'JavaScript', level: 85 },
-            { name: 'HTML/CSS', level: 95 },
-            { name: 'Node.js', level: 80 },
-            { name: 'UI/UX Design', level: 75 },
+            { name: 'React', level: 75, Icon: FaReact, color: '#61DAFB' },
+            { name: 'JavaScript', level: 65, Icon: SiJavascript, color: '#F7DF1E' },
+            { name: 'HTML5', level: 90, Icon: FaHtml5, color: '#E34F26' },
+            { name: 'CSS3', level: 77, Icon: FaCss3Alt, color: '#1572B6' },
+            { name: 'Next.js', level: 70, Icon: SiNextdotjs, color: '#eeeeee' },
+            { name: 'Tailwind CSS', level: 90, Icon: SiTailwindcss, color: '#06B6D4' },
+            { name: 'Redux', level: 77, Icon: SiRedux, color: '#764ABC' },
+            { name: 'Styled Components', level: 80, Icon: SiStyledcomponents, color: '#DB7093' },
+            { name: 'Node.js', level: 80, Icon: FaNodeJs, color: '#339933' },
         ];
 
         return (
@@ -738,27 +776,100 @@ const Portfolio = () => {
                     top: 0,
                     left: 0,
                     width: '100%',
-                    height: '100%',
+                    height: '100vh',
                     display: 'flex',
-                    alignItems: 'center',
+                    alignItems: 'flex-start',
                     justifyContent: 'center',
                     pointerEvents: activeSection === 'skills' ? 'auto' : 'none',
                     transition: 'opacity 0.6s ease',
                     color: 'white',
-                    padding: '50px',
+                    padding: '20px',
+                    overflowY: 'scroll',
+                    overflowX: 'hidden',
                 }}
                 className={activeSection === 'skills' ? 'section-transition-enter' : 'section-transition-exit'}
                 ref={(el) => (sectionRefs.current['skills'] = el)}
             >
-                <div style={{ maxWidth: '800px', width: '100%' }}>
-                    <h1 style={{ fontSize: '3rem', marginBottom: '2rem', color: '#4fc3f7', textAlign: 'center' }}>
-                        기술 스택
+                <div style={{ maxWidth: '800px', width: '100%', paddingTop: '30px', paddingBottom: '80px' }}>
+                    <h1
+                        style={{
+                            fontSize: '2.2rem',
+                            marginTop: '2.5rem',
+                            marginBottom: '1.2rem',
+                            color: 'white',
+                            textAlign: 'center',
+                            position: 'sticky',
+                            top: '0',
+                            padding: '10px 0',
+                            zIndex: 10,
+                        }}
+                    >
+                        Tech Stack
                     </h1>
+
+                    {/* 프로젝트별 기술 스택 */}
+                    <div style={{ marginBottom: '2rem', display: 'flex', flexDirection: 'column', gap: '2.5rem' }}>
+                        {projects.map((project, projectIndex) => (
+                            <div key={projectIndex} style={{ marginBottom: '0' }}>
+                                <h2 style={{ fontSize: '1.8rem', marginBottom: '0.8rem', color: 'white' }}>
+                                    {project.name}
+                                </h2>
+                                <div
+                                    style={{
+                                        display: 'flex',
+                                        flexWrap: 'wrap',
+                                        gap: '12px',
+                                        justifyContent: 'flex-start',
+                                        marginTop: '10px',
+                                    }}
+                                >
+                                    {project.skills.map((skill, skillIndex) => (
+                                        <div
+                                            key={skillIndex}
+                                            style={{
+                                                display: 'flex',
+                                                flexDirection: 'column',
+                                                alignItems: 'center',
+                                                backgroundColor: 'rgba(255, 255, 255, 0.1)',
+                                                borderRadius: '8px',
+                                                padding: '10px',
+                                                width: '85px',
+                                                transition: 'transform 0.3s ease, box-shadow 0.3s ease',
+                                            }}
+                                            onMouseOver={(e) => {
+                                                e.currentTarget.style.transform = 'translateY(-5px)';
+                                                e.currentTarget.style.boxShadow = `0 5px 15px rgba(${parseInt(
+                                                    skill.color.slice(1, 3),
+                                                    16
+                                                )}, ${parseInt(skill.color.slice(3, 5), 16)}, ${parseInt(
+                                                    skill.color.slice(5, 7),
+                                                    16
+                                                )}, 0.3)`;
+                                            }}
+                                            onMouseOut={(e) => {
+                                                e.currentTarget.style.transform = 'translateY(0)';
+                                                e.currentTarget.style.boxShadow = 'none';
+                                            }}
+                                        >
+                                            <skill.Icon size={30} color={skill.color} style={{ marginBottom: '8px' }} />
+                                            <span style={{ fontWeight: 'bold' }}>{skill.name}</span>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+
+                    {/* 기술 숙련도 섹션 */}
+                    <h2 style={{ fontSize: '1.8rem', marginBottom: '0.8rem', color: 'white' }}>
+                        Technical Proficiency
+                    </h2>
                     <div
                         style={{
                             display: 'flex',
                             flexDirection: 'column',
-                            gap: '20px',
+                            gap: '12px',
+                            marginTop: '10px',
                         }}
                     >
                         {skills.map((skill, index) => (
@@ -767,10 +878,14 @@ const Portfolio = () => {
                                     style={{
                                         display: 'flex',
                                         justifyContent: 'space-between',
+                                        alignItems: 'center',
                                         marginBottom: '5px',
                                     }}
                                 >
-                                    <span style={{ fontWeight: 'bold' }}>{skill.name}</span>
+                                    <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                                        <skill.Icon size={24} color={skill.color} />
+                                        <span style={{ fontWeight: 'bold' }}>{skill.name}</span>
+                                    </div>
                                     <span>{skill.level}%</span>
                                 </div>
                                 <div
@@ -778,6 +893,7 @@ const Portfolio = () => {
                                         width: '100%',
                                         height: '8px',
                                         borderRadius: '4px',
+                                        backgroundColor: 'rgba(255, 255, 255, 0.1)',
                                         overflow: 'hidden',
                                     }}
                                 >
@@ -785,7 +901,7 @@ const Portfolio = () => {
                                         style={{
                                             width: `${skill.level}%`,
                                             height: '100%',
-                                            backgroundColor: '#4fc3f7',
+                                            backgroundColor: skill.color,
                                             borderRadius: '4px',
                                             transition: 'width 1s ease-in-out',
                                         }}
@@ -798,7 +914,6 @@ const Portfolio = () => {
             </div>
         );
     };
-
     // 연락처 섹션 렌더링
     const renderContactSection = () => {
         return (
