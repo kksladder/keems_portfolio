@@ -52,10 +52,9 @@ const ProfileDetails = () => {
         { Icon: SiStyledcomponents, name: 'Styled Components', color: '#DB7093' },
         { Icon: SiRedux, name: 'Redux', color: '#764ABC' },
         { Icon: SiMongodb, name: 'MongoDB', color: '#47A248' },
-        { Icon: SiFirebase, name: 'Firebase', color: '#FFCA28' },
         { Icon: FaHtml5, name: 'HTML5', color: '#E34F26' },
         { Icon: FaCss3Alt, name: 'CSS3', color: '#1572B6' },
-        { Icon: FaGitAlt, name: 'Git', color: '#F05032' },
+        { Icon: FaGitAlt, name: 'GitHub', color: '#F05032' },
     ];
 
     return (
