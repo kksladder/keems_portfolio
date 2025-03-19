@@ -190,10 +190,12 @@ const Portfolio = () => {
         document.body.style.margin = '0';
         document.body.style.padding = '0';
         document.body.style.backgroundColor = 'black';
-        document.body.style.overflowY = 'hidden'; // 스크롤 막기
+        document.body.style.overflowY = 'hidden';
         document.body.style.height = '100vh';
         document.documentElement.style.height = '100vh';
         document.documentElement.style.overflow = 'hidden';
+        document.body.style.userSelect = 'none';
+        document.documentElement.style.userSelect = 'none';
 
         // Add CSS variables for the 3D effect
         const style = document.createElement('style');
@@ -252,20 +254,26 @@ const Portfolio = () => {
             }
             
             .nav-button {
-                background-color: rgba(79, 195, 247, 0.2);
-                color: white;
-                border: 2px solid #eee;
-                width: 60px;
-                height: 140px;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                cursor: pointer;
-                transition: all 0.3s;
-                font-size: 1.2rem;
-                font-weight: bold;
-            }
-            
+                 background-color: rgba(79, 195, 247, 0.2);
+    color: white;
+    border: 2px solid #eee;
+    width: 60px;
+    height: 220px;
+    display: flex;
+    border-radius: 6px;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s;
+    font-size: 2rem;
+    margin-top: 45px;
+    margin-left: 250px;
+    margin-right: 215px;
+    font-weight: 600; 
+    text-align: center;
+    padding: 0;
+    line-height: 1;  
+}
             .nav-button:hover {
                 background-color: rgba(79, 195, 247, 0.3);
                 transform: scale(1.1);
@@ -419,7 +427,66 @@ const Portfolio = () => {
     };
 
     // 포트폴리오 섹션 렌더링
+    // Replace the renderPortfolioSection function with this updated version
+
+    // 포트폴리오 섹션 렌더링
     const renderPortfolioSection = () => {
+        // State to track which item should show the GitHub link
+        const [visibleLink, setVisibleLink] = useState(null);
+        // Ref to store timeout IDs for cleanup
+        const timeoutRef = useRef(null);
+
+        // GitHub URLs in order from left to right
+        const githubUrls = [
+            'https://github.com/kksladder/Playstation_Project-main',
+            'https://github.com/kksladder/Hyukoh_Archive',
+            'https://github.com/kksladder/REELPICKott3',
+            'https://github.com/kksladder/OHESHIO',
+        ];
+
+        // Enhanced hover handler with timeout
+        const handleItemHover = (index) => {
+            console.log(`Hover state changed to: ${index}`); // Add this to debug
+            // Set the hovered state for image effects immediately
+            setHovered(index);
+
+            // Update the video category when hovering
+            if (index !== null) {
+                setActiveVideoCategory(portfolioItems[index].videoCategory);
+            } else {
+                // Small delay before reverting to default video to avoid flickering
+                setTimeout(() => {
+                    if (hovered === null) {
+                        setActiveVideoCategory('default');
+                    }
+                }, 300);
+            }
+
+            // Clear any existing timeout
+            if (timeoutRef.current) {
+                clearTimeout(timeoutRef.current);
+            }
+
+            if (index !== null) {
+                // When hovering, show the link right away
+                setVisibleLink(index);
+            } else {
+                // When leaving, set a timeout before hiding the link
+                timeoutRef.current = setTimeout(() => {
+                    setVisibleLink(null);
+                }, 2000); // 2 seconds delay
+            }
+        };
+
+        // Clean up timeout on unmount
+        useEffect(() => {
+            return () => {
+                if (timeoutRef.current) {
+                    clearTimeout(timeoutRef.current);
+                }
+            };
+        }, []);
+
         return (
             <div
                 style={{
@@ -446,93 +513,143 @@ const Portfolio = () => {
                         position: 'relative',
                     }}
                 >
-                    {portfolioItems.map((item, index) => (
-                        <div
-                            key={item.id}
-                            ref={(el) => (itemRefs.current[index] = el)}
-                            style={{
-                                transformStyle: 'preserve-3d',
-                                transition: 'transform 0.2s ease-out',
-                                display: 'flex',
-                                flexDirection: 'column',
-                                alignItems: 'center',
-                                cursor: item.url ? 'pointer' : 'default',
-                                margin: '10px 0',
-                            }}
-                            onMouseEnter={() => handleItemHover(index)}
-                            onMouseLeave={() => handleItemHover(null)}
-                            onClick={() => {
-                                if (item.url) {
-                                    window.open(item.url, '_blank', 'noopener,noreferrer');
-                                }
-                            }}
-                        >
+                    {portfolioItems.map((item, index) => {
+                        // Get the item size dynamically
+                        const itemSize = getItemSize();
+
+                        return (
                             <div
+                                key={item.id}
+                                ref={(el) => (itemRefs.current[index] = el)}
                                 style={{
-                                    ...getItemSize(),
                                     transformStyle: 'preserve-3d',
-                                    overflow: 'hidden',
-                                    borderRadius: '8px',
-                                    position: 'relative',
+                                    transition: 'transform 0.2s ease-out',
+                                    display: 'flex',
+                                    flexDirection: 'column',
+                                    alignItems: 'center',
+                                    cursor: item.url ? 'pointer' : 'default',
+                                    margin: '10px 0',
+                                    position: 'relative', // For positioning of the GitHub link
+                                    // Add padding to increase the hover area, especially for Oheshio
+                                    padding: index === 3 ? '10px' : '5px',
+                                    // Background to make padding area visible for debugging (can be removed later)
+                                    // background: 'rgba(255,255,255,0.05)',
+                                }}
+                                onMouseEnter={() => handleItemHover(index)}
+                                onMouseLeave={() => handleItemHover(null)}
+                                onClick={() => {
+                                    if (item.url) {
+                                        window.open(item.url, '_blank', 'noopener,noreferrer');
+                                    }
                                 }}
                             >
-                                <img
-                                    src={item.imageUrl}
-                                    alt={item.title}
-                                    onError={(e) => {
-                                        console.error(`Failed to load image: ${item.imageUrl}`);
-                                        e.target.src =
-                                            'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="250" height="250"><rect width="100%" height="100%" fill="gray"/><text x="50%" y="50%" font-family="Arial" font-size="20" text-anchor="middle" fill="white">Image Not Found</text></svg>';
-                                    }}
+                                <div
                                     style={{
-                                        width: '100%',
-                                        height: '100%',
-                                        objectFit: 'cover',
+                                        width: itemSize.width,
+                                        height: itemSize.height,
                                         transformStyle: 'preserve-3d',
-                                        transition: 'transform 0.5s',
-                                        transform: hovered === index ? 'scale(1.05)' : 'scale(1)',
+                                        overflow: 'hidden',
+                                        borderRadius: '8px',
+                                        position: 'relative',
+                                        border: hovered === index ? '1px solid #808080' : '2px solid transparent',
+                                        transition: 'border 0.3s ease',
                                     }}
-                                />
+                                >
+                                    <img
+                                        src={item.imageUrl}
+                                        alt={item.title}
+                                        onError={(e) => {
+                                            console.error(`Failed to load image: ${item.imageUrl}`);
+                                            e.target.src =
+                                                'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="250" height="250"><rect width="100%" height="100%" fill="gray"/><text x="50%" y="50%" font-family="Arial" font-size="20" text-anchor="middle" fill="white">Image Not Found</text></svg>';
+                                        }}
+                                        style={{
+                                            width: '100%',
+                                            height: '100%',
+                                            objectFit: 'cover',
+                                            transformStyle: 'preserve-3d',
+                                            transition: 'transform 0.5s',
+                                            transform: hovered === index ? 'scale(1.05)' : 'scale(1)',
+                                        }}
+                                    />
+                                    {/* Overlay div that appears on hover */}
+                                    <div
+                                        style={{
+                                            position: 'absolute',
+                                            inset: 0,
+                                            backgroundColor: 'rgba(0,0,0,0.7)', // Made darker for better visibility
+                                            opacity: hovered === index ? 1 : 0,
+                                            transition: 'opacity 0.3s ease',
+                                            display: 'flex',
+                                            flexDirection: 'column',
+                                            alignItems: 'center',
+                                            justifyContent: 'center',
+                                            zIndex: 5, // Ensure it's above the image
+                                            pointerEvents: hovered === index ? 'auto' : 'none', // Only clickable when visible
+                                        }}
+                                    >
+                                        <span
+                                            style={{
+                                                color: 'white',
+                                                fontWeight: 'bold',
+                                                fontSize: windowWidth < 1024 ? '1.2rem' : '1.5rem',
+                                                marginBottom: '8px',
+                                                textAlign: 'center',
+                                                padding: '0 10px',
+                                            }}
+                                        >
+                                            {item.title}
+                                        </span>
+                                        {item.url && (
+                                            <span
+                                                style={{
+                                                    color: '#4fc3f7',
+                                                    fontSize: windowWidth < 1024 ? '0.9rem' : '1rem',
+                                                    textAlign: 'center',
+                                                }}
+                                            >
+                                                Click to visit project
+                                            </span>
+                                        )}
+                                    </div>
+                                </div>
+
+                                {/* GitHub link button that appears on hover with delayed disappearance */}
                                 <div
                                     style={{
                                         position: 'absolute',
-                                        inset: 0,
-                                        backgroundColor: 'rgba(0,0,0,0.5)',
-                                        opacity: hovered === index ? 1 : 0,
-                                        transition: 'opacity 0.3s',
-                                        display: 'flex',
-                                        flexDirection: 'column',
-                                        alignItems: 'center',
-                                        justifyContent: 'center',
+                                        bottom: '-40px',
+                                        width: itemSize.width,
+                                        opacity: visibleLink === index ? 1 : 0,
+                                        transform: visibleLink === index ? 'translateY(0)' : 'translateY(-10px)',
+                                        transition: 'opacity 0.3s ease, transform 0.3s ease',
+                                        textAlign: 'center',
+                                        pointerEvents: visibleLink === index ? 'auto' : 'none',
+                                    }}
+                                    onClick={(e) => {
+                                        e.stopPropagation(); // Prevent triggering parent onClick
+                                        // Use the ordered GitHub URLs
+                                        window.open(githubUrls[index], '_blank', 'noopener,noreferrer');
                                     }}
                                 >
-                                    <span
+                                    <button
                                         style={{
-                                            color: 'white',
+                                            backgroundColor: 'white',
+                                            border: 'none',
+                                            borderRadius: '4px',
+                                            padding: '8px 16px',
+                                            cursor: 'pointer',
+                                            boxShadow: '0 2px 5px rgba(0,0,0,0.2)',
                                             fontWeight: 'bold',
-                                            fontSize: windowWidth < 1024 ? '1.2rem' : '1.5rem',
-                                            marginBottom: '8px',
-                                            textAlign: 'center',
-                                            padding: '0 10px',
+                                            width: '100%',
                                         }}
                                     >
-                                        {item.title}
-                                    </span>
-                                    {item.url && (
-                                        <span
-                                            style={{
-                                                color: '#4fc3f7',
-                                                fontSize: windowWidth < 1024 ? '0.9rem' : '1rem',
-                                                textAlign: 'center',
-                                            }}
-                                        >
-                                            Click to visit project
-                                        </span>
-                                    )}
+                                        Github View Code
+                                    </button>
                                 </div>
                             </div>
-                        </div>
-                    ))}
+                        );
+                    })}
                 </div>
             </div>
         );
@@ -562,7 +679,7 @@ const Portfolio = () => {
                 ref={(el) => (sectionRefs.current['about'] = el)}
             >
                 <div style={{ maxWidth: '800px', textAlign: 'center' }}>
-                    <h1 style={{ fontSize: '3rem', marginBottom: '2rem', color: '#eee' }}>안녕하세요!</h1>
+                    <h1 style={{ fontSize: '3rem', marginBottom: '2rem', color: '#eee' }}>안녕하세요</h1>
                     <p style={{ fontSize: '1.2rem', lineHeight: '1.8', marginBottom: '2rem' }}>하이요</p>
                     <div
                         style={{
@@ -705,7 +822,7 @@ const Portfolio = () => {
                 ref={(el) => (sectionRefs.current['contact'] = el)}
             >
                 <div style={{ maxWidth: '800px', width: '100%', textAlign: 'center' }}>
-                    <h1 style={{ fontSize: '3rem', marginBottom: '2rem', color: '#4fc3f7' }}>연락처</h1>
+                    <h1 style={{ fontSize: '3rem', marginBottom: '2rem', color: '#eee' }}>연락처</h1>
                     <p style={{ fontSize: '1.2rem', marginBottom: '2rem' }}>
                         아래 정보로 연락해주세요. 언제든지 메시지를 보내주시면 빠르게 답변 드리겠습니다.
                     </p>
@@ -726,19 +843,7 @@ const Portfolio = () => {
                                 gap: '10px',
                             }}
                         >
-                            <div
-                                style={{
-                                    width: '50px',
-                                    height: '50px',
-                                    borderRadius: '50%',
-                                    backgroundColor: '#4fc3f7',
-                                    display: 'flex',
-                                    alignItems: 'center',
-                                    justifyContent: 'center',
-                                    fontSize: '1.5rem',
-                                }}
-                            ></div>
-                            <span style={{ fontSize: '1.2rem' }}>kksladder@gmail.com</span>
+                            <span style={{ fontSize: '2rem' }}>kksladder@gmail.com</span>
                         </div>
 
                         <div
@@ -748,58 +853,7 @@ const Portfolio = () => {
                                 gap: '10px',
                             }}
                         >
-                            <span style={{ fontSize: '1.2rem' }}>010-8901-9670</span>
-                        </div>
-
-                        <div
-                            style={{
-                                display: 'flex',
-                                gap: '20px',
-                                marginTop: '2rem',
-                            }}
-                        >
-                            <div
-                                style={{
-                                    width: '40px',
-                                    height: '40px',
-                                    backgroundColor: 'white',
-                                    borderRadius: '50%',
-                                    display: 'flex',
-                                    alignItems: 'center',
-                                    justifyContent: 'center',
-                                    cursor: 'pointer',
-                                }}
-                            >
-                                <span style={{ color: 'black', fontWeight: 'bold' }}>G</span>
-                            </div>
-                            <div
-                                style={{
-                                    width: '40px',
-                                    height: '40px',
-                                    backgroundColor: 'white',
-                                    borderRadius: '50%',
-                                    display: 'flex',
-                                    alignItems: 'center',
-                                    justifyContent: 'center',
-                                    cursor: 'pointer',
-                                }}
-                            >
-                                <span style={{ color: 'black', fontWeight: 'bold' }}>I</span>
-                            </div>
-                            <div
-                                style={{
-                                    width: '40px',
-                                    height: '40px',
-                                    backgroundColor: 'white',
-                                    borderRadius: '50%',
-                                    display: 'flex',
-                                    alignItems: 'center',
-                                    justifyContent: 'center',
-                                    cursor: 'pointer',
-                                }}
-                            >
-                                <span style={{ color: 'black', fontWeight: 'bold' }}>L</span>
-                            </div>
+                            <span style={{ fontSize: '2rem' }}>010-8901-9670</span>
                         </div>
                     </div>
                 </div>
