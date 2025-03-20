@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState, useCallback } from 'react';
 import BackgroundVideo from './background';
 import CollageLayout from './CollageLayout';
 import { FaReact, FaHtml5, FaCss3Alt, FaNodeJs, FaGithub } from 'react-icons/fa';
+import FloatingContactGlitch from './FloatingContactGlitch';
 import {
     SiJavascript,
     SiNextdotjs,
@@ -284,6 +285,7 @@ const Portfolio = () => {
     const getContainerStyles = () => {
         // Default styles (desktop)
         if (windowWidth >= 1024) {
+            <div></div>;
             return {
                 display: 'flex',
                 flexDirection: 'row',
@@ -689,7 +691,7 @@ const Portfolio = () => {
                             textAlign: 'center', // Explicitly set text alignment
                         }}
                     >
-                        안녕하세요
+                        안녕하세요 항상 배우고 끊임없는 도전과 성장을 추구하는 웹퍼블리셔+개발자 김기섭 입니다.
                     </h1>
                     <p
                         style={{
@@ -701,7 +703,7 @@ const Portfolio = () => {
                             textAlign: 'center', // Explicitly set text alignment
                         }}
                     >
-                        나가라
+                        항상 밝고 낙천적이며 긍정적 사고와 상상력과 감수성이 매우 풍부한 ENFJ 입니다.
                     </p>
                     <div
                         style={{
@@ -1173,6 +1175,8 @@ const Portfolio = () => {
                     zIndex: 10,
                 }}
             >
+                <FloatingContactGlitch />
+
                 <BackgroundVideo category={activeVideoCategory} />
             </div>
 
