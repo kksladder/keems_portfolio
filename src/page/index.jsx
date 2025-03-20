@@ -294,8 +294,9 @@ const Portfolio = () => {
                 width: '100%',
                 maxWidth: '100%',
                 padding: '20px',
+                paddingBottom: '70px', // GitHub 버튼을 위한 하단 여백 추가
                 overflowX: 'auto',
-                overflowY: 'hidden',
+                overflowY: 'visible', // hidden에서 visible로 변경
                 minHeight: '300px',
             };
         }
@@ -310,8 +311,9 @@ const Portfolio = () => {
                 width: '100%',
                 maxWidth: '100%',
                 padding: '20px',
+                paddingBottom: '70px', // GitHub 버튼을 위한 하단 여백 추가
                 overflowY: 'auto',
-                overflowX: 'hidden',
+                overflowX: 'visible', // hidden에서 visible로 변경
                 maxHeight: '90vh',
                 minHeight: '300px',
             };
@@ -327,8 +329,9 @@ const Portfolio = () => {
                 width: '100%',
                 maxWidth: '100%',
                 padding: '15px',
+                paddingBottom: '70px', // GitHub 버튼을 위한 하단 여백 추가
                 overflowY: 'auto',
-                overflowX: 'hidden',
+                overflowX: 'visible', // hidden에서 visible로 변경
                 maxHeight: '85vh',
                 minHeight: '250px',
             };
@@ -347,13 +350,11 @@ const Portfolio = () => {
             return {
                 width: '200px',
                 height: '200px',
-                minWidth: '200px',
             };
         } else {
             return {
                 width: '160px',
                 height: '160px',
-                minWidth: '160px',
             };
         }
     };
@@ -487,6 +488,7 @@ const Portfolio = () => {
                     pointerEvents: activeSection === 'portfolio' ? 'auto' : 'none',
                     transition: 'opacity 0.6s ease',
                     padding: '20px',
+                    overflow: 'visible',
                 }}
                 className={activeSection === 'portfolio' ? 'section-transition-enter' : 'section-transition-exit'}
                 ref={(el) => (sectionRefs.current['portfolio'] = el)}
@@ -496,6 +498,7 @@ const Portfolio = () => {
                     style={{
                         ...getContainerStyles(),
                         position: 'relative',
+                        overflow: 'visible',
                     }}
                 >
                     {portfolioItems.map((item, index) => {
@@ -517,8 +520,8 @@ const Portfolio = () => {
                                     position: 'relative', // For positioning of the GitHub link
                                     // Add padding to increase the hover area, especially for Oheshio
                                     padding: index === 3 ? '10px' : '5px',
-                                    // Background to make padding area visible for debugging (can be removed later)
-                                    // background: 'rgba(255,255,255,0.05)',
+                                    overflow: 'visible', // 아이템 자체가 overflow: visible을 가지도록 수정
+                                    marginBottom: '60px', // GitHub 버튼을 위한 충분한 여백 추가
                                 }}
                                 onMouseEnter={() => handleItemHover(index)}
                                 onMouseLeave={() => handleItemHover(null)}
@@ -602,14 +605,17 @@ const Portfolio = () => {
                                 {/* GitHub link button that appears on hover with delayed disappearance */}
                                 <div
                                     style={{
-                                        position: 'absolute',
-                                        bottom: '-40px',
+                                        position: 'absolute', // 절대 위치로 설정
+                                        top: '100%', // 부모 요소의 100% 위치(바로 아래)에서 시작
+                                        left: 0, // 왼쪽 정렬
                                         width: itemSize.width,
+                                        marginTop: '10px', // 아이템과의 간격
                                         opacity: visibleLink === index ? 1 : 0,
                                         transform: visibleLink === index ? 'translateY(0)' : 'translateY(-10px)',
                                         transition: 'opacity 0.3s ease, transform 0.3s ease',
                                         textAlign: 'center',
                                         pointerEvents: visibleLink === index ? 'auto' : 'none',
+                                        zIndex: 999, // 높은 z-index 값 사용
                                     }}
                                     onClick={(e) => {
                                         e.stopPropagation(); // Prevent triggering parent onClick
