@@ -99,7 +99,7 @@ const CollageLayout = () => {
                 zIndex={5}
                 customStyles1440='top: -120px; left: -5px;'
                 customStyles1024='top: -140px; left: 0px;'
-                customStyles768='top: -140px; left: 5px;'
+                customStyles768='top: -140px; left: -30px;'
                 customStyles480='top: -135px; left: -95px;'
                 customStyles390='top: -135px; left: -75px;'
             >
@@ -113,7 +113,7 @@ const CollageLayout = () => {
                 customStyles1440='top: 4%; left: 72%;'
                 customStyles1024='top: 20%; left: 66%;'
                 customStyles768='top: 20%; left: 60%;'
-                customStyles480='left: 65%; top: 3%;'
+                customStyles480='left: 65%; top: -3%;'
                 customStyles390='left: 62%; top: 2%;'
             >
                 <AnimatedImage
@@ -131,7 +131,7 @@ const CollageLayout = () => {
                 zIndex={5}
                 customStyles1440='top: -22%; left: 55%;'
                 customStyles1024='top: -8%; left: 64%;'
-                customStyles768='top: -5%; left: 67%;'
+                customStyles768='top: -5%; left: 77%;'
                 customStyles480='top: 10%; left: 55%;'
                 customStyles390='top: 2%; left: 50%;'
             >
@@ -144,7 +144,7 @@ const CollageLayout = () => {
                 zIndex={5}
                 customStyles1440='top: -15%; right: -2%;'
                 customStyles1024='right: -3%;'
-                customStyles768='right: -4%; top: -13%;'
+                customStyles768='right: -4%; top: -15%;'
                 customStyles480='right: -25%; top: -13%;'
                 customStyles390='right: -25%; top: -13%;'
             >
@@ -157,7 +157,7 @@ const CollageLayout = () => {
                 zIndex={5}
                 customStyles1440='left: 35%; width: 350px;'
                 customStyles1024='left: 46%; width: 300px;'
-                customStyles768='left: 44%; width: 250px; top: -15%;'
+                customStyles768='left: 44%; width: 250px; top: 55%;'
                 customStyles480='left: 42%; width: 300px; top: -12%;'
                 customStyles390='left: 40%; width: 180px; top: -10%;'
             >
@@ -175,7 +175,7 @@ const CollageLayout = () => {
                 zIndex={5}
                 customStyles1440='left: 10%; width: 250px;'
                 customStyles1024='top:-8%; left: 12%; width: 200px;'
-                customStyles768='left: 14%; width: 180px; top: -8%;'
+                customStyles768='left: 14%; width: 250px; top: -11%;'
                 customStyles480='left: 16%; width: 150px; top: -6%;'
                 customStyles390='left: 15%; width: 300px; top: -13%;'
             >
@@ -194,7 +194,7 @@ const CollageLayout = () => {
                 zIndex={5}
                 customStyles1440='right: 84%; width: 450px;'
                 customStyles1024='bottom: -75%; right: 70%; width: 400px;'
-                customStyles768='right: 47%; width: 450px; top: 30%;'
+                customStyles768='right: 47%; width: 700px; top: 15%;'
                 customStyles480='right: 10%; width: 750px; top: 9%;'
                 customStyles390='right: -35%; width: 1000px; top: -3%;'
             >
@@ -212,7 +212,7 @@ const CollageLayout = () => {
                 zIndex={4}
                 customStyles1440='right: 80%; width: 350px;'
                 customStyles1024='right: 77%; width: 300px;'
-                customStyles768='right: 74%; width: 250px; bottom: 12%;'
+                customStyles768='right: 55%; width: 500px; bottom: 12%;'
                 customStyles480='right: 40%; width: 400px; bottom: 10%;'
                 customStyles390='right: -28%; width: 800px; bottom: -10%;'
             >
@@ -224,7 +224,7 @@ const CollageLayout = () => {
                 zIndex={1}
                 customStyles1440='width: 400px;'
                 customStyles1024='top: 1%; left: -3%; width: 350px;'
-                customStyles768='left: -15%; width: 500px; bottom: 0%;'
+                customStyles768='left: -39%; width: 750px; bottom: 75%;'
                 customStyles480='left: -30%; top: -20%; width: 500px; bottom: 0%;'
                 customStyles390='left: -85%; width: 800px; bottom: 43%;'
             >
@@ -254,7 +254,7 @@ const CollageLayout = () => {
                 zIndex={2}
                 customStyles1440='right: 61%; width: 250px;'
                 customStyles1024='top: 86%; left: 10%; right: 59%; width: 220px;'
-                customStyles768='right: 57%; width: 200px; bottom: -12%;'
+                customStyles768='left: -15%; width: 450px; bottom: 19%;'
                 customStyles480='left: -16%; width: 250px; bottom: -10%;'
                 customStyles390='left: -55%; width: 500px; bottom: 8%;'
             >
@@ -266,7 +266,7 @@ const CollageLayout = () => {
                 zIndex={2}
                 customStyles1440='left: 33%; width: 250px;'
                 customStyles1024='top: 86%; left: 25%; width: 220px;'
-                customStyles768='left: 22%; width: 200px; bottom: -12%;'
+                customStyles768='left: 7%; width: 450px; bottom: 19%;'
                 customStyles480='left: -1%; width: 250px; bottom: -10%;'
                 customStyles390='left: -35%; width: 500px; bottom: 8%;'
             >
@@ -303,7 +303,7 @@ const CollageLayout = () => {
                 zIndex={4}
                 customStyles1440='top: 70%; width: 400px;'
                 customStyles1024='left: 81%; width: 350px;'
-                customStyles768='left: 75%; width: 300px; bottom: -8%;'
+                customStyles768='left: 55%; width: 700px; bottom: -8%;'
                 customStyles480='left: 45%; width: 450px; bottom: 17%;'
                 customStyles390='left: 7%; width: 700px; bottom: 64%;'
             >
@@ -321,7 +321,7 @@ const CollageLayout = () => {
                 zIndex={3}
                 customStyles1440='bottom: -5%; width: 500px;'
                 customStyles1024='right: 1%; width: 450px;'
-                customStyles768='right: -8%; width: 400px; bottom: 12%;'
+                customStyles768='right: -45%; width: 750px; bottom: 7%;'
                 customStyles480='right: 0%; width: 350px; bottom: -1%;'
                 customStyles390='right: 0%; width: 320px; bottom: 0%;'
             >
@@ -339,7 +339,7 @@ const CollageLayout = () => {
                 zIndex={1}
                 customStyles1440='right: -2%; width: 450px;'
                 customStyles1024='top: 16%; right: -4%; width: 400px;'
-                customStyles768='right: -9%; width: 400px; top: 8%;'
+                customStyles768='right: -22%; width: 600px; top: 6%;'
                 customStyles480='right: -44%; width: 550px; bottom: 80%;'
                 customStyles390='right: -85%; width: 800px; bottom: 45%;'
             >
@@ -357,7 +357,7 @@ const CollageLayout = () => {
                 zIndex={5}
                 customStyles1440='right: -5%; width: 250px;'
                 customStyles1024='right: -5%; width: 220px;'
-                customStyles768='right: -9%; width: 250px; bottom: 27%;'
+                customStyles768='right: -16%; width: 400px; bottom: 20%;'
                 customStyles480='right: -40%; width: 500px; bottom: 4%;'
                 customStyles390='left: -15%; width: 750px; bottom: -16%;'
             >
