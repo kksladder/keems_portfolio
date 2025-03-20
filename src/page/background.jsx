@@ -15,19 +15,19 @@ const BackgroundVideo = ({ category = 'default' }) => {
 
     // Video configuration
     const videoIds = {
-        default: 'd6w4dHe_gac',
+        default: 'kSZddHca0ME',
         playstation: 'giGyazPIbn8',
         hyukoh: 'Js67kofnQw0',
         reelpick: 'oanT_nueNEM',
-        oheshio: 'pSUydWEqKwE',
+        oheshio: 'ft70sAYrFyY',
     };
 
     const videoTimes = {
-        default: { start: 0, end: 180 },
+        default: { start: 0, end: 6000 },
         playstation: { start: 0, end: 180 },
         hyukoh: { start: 113, end: 180 },
         reelpick: { start: 0, end: 180 },
-        oheshio: { start: 97, end: 180 },
+        oheshio: { start: 147, end: 180 },
     };
 
     // category prop이 변경될 때 activeCategory 업데이트

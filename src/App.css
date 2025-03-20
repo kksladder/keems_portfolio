@@ -1,8 +1,16 @@
+/* Google Fonts에서 JetBrains Mono 폰트 임포트 */
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+
 #root {
     max-width: 1920px;
     margin: 0 auto;
     padding: 2rem;
     text-align: center;
+}
+
+/* JetBrains Mono 폰트를 영어 텍스트에 적용하기 위한 클래스 */
+.eng-text {
+    font-family: 'JetBrains Mono', monospace;
 }
 
 .logo {
@@ -39,4 +47,35 @@
 
 .read-the-docs {
     color: #888;
+}
+
+/* 영어와 한글을 구분해서 폰트 적용 */
+:lang(en) {
+    font-family: 'JetBrains Mono', monospace;
+}
+
+/* 특정 요소에 대한 JetBrains Mono 폰트 적용 */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: 'JetBrains Mono', monospace;
+}
+
+.skill-name,
+.project-name,
+.tech-label {
+    font-family: 'JetBrains Mono', monospace;
+}
+
+/* 스크롤바 숨김 */
+::-webkit-scrollbar {
+    display: none;
+}
+
+/* 스크롤바 숨김 (Firefox) */
+* {
+    scrollbar-width: none;
 }

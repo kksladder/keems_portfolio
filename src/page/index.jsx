@@ -10,24 +10,18 @@ import {
     SiStyledcomponents,
     SiVite,
     SiChakraui,
+    SiClaude,
 } from 'react-icons/si';
 
 const Portfolio = () => {
     // Fixed image paths
     const portfolioItems = [
         {
-            id: 1,
-            title: 'PlayStation Project',
-            imageUrl: '/image/ps5.jpg',
-            url: 'https://kksladder.github.io/Playstation_Project/index2.html',
-            videoCategory: 'playstation',
-        },
-        {
-            id: 2,
-            title: 'Hyukoh Project',
-            imageUrl: '/image/aaa.jpg',
-            url: 'https://hyukoharchive-g20jushpg-kims-projects-0be7b655.vercel.app/',
-            videoCategory: 'hyukoh',
+            id: 4,
+            title: 'Renewal',
+            imageUrl: '/image/oheshio.png',
+            url: 'https://oheshiorenewal.vercel.app/',
+            videoCategory: 'oheshio',
         },
         {
             id: 3,
@@ -37,20 +31,26 @@ const Portfolio = () => {
             videoCategory: 'reelpick',
         },
         {
-            id: 4,
-            title: 'Renewal',
-            imageUrl: '/image/oheshio.png',
-            url: 'https://oheshiorenewal.vercel.app/',
-            videoCategory: 'oheshio',
+            id: 2,
+            title: 'Hyukoh Project',
+            imageUrl: '/image/aaa.jpg',
+            url: 'https://hyukoharchive-g20jushpg-kims-projects-0be7b655.vercel.app/',
+            videoCategory: 'hyukoh',
+        },
+        {
+            id: 1,
+            title: 'PlayStation Project',
+            imageUrl: '/image/ps5.jpg',
+            url: 'https://kksladder.github.io/Playstation_Project/index2.html',
+            videoCategory: 'playstation',
         },
     ];
-
     // 섹션 관련 상태
     const sections = [
-        { id: 'portfolio', title: '포트폴리오' },
-        { id: 'about', title: '소개' },
-        { id: 'skills', title: '기술' },
-        { id: 'contact', title: '연락처' },
+        { id: 'portfolio', title: 'Portfolio' },
+        { id: 'about', title: 'About' },
+        { id: 'skills', title: 'Skills' },
+        { id: 'contact', title: 'Contact' },
     ];
     const [activeSection, setActiveSection] = useState('portfolio');
 
@@ -192,9 +192,13 @@ const Portfolio = () => {
         // Add CSS variables for the 3D effect
         const style = document.createElement('style');
         style.textContent = `
+            /* Google Fonts에서 JetBrains Mono 폰트 임포트 */
+            @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+            
             :root {
                 --mouseX: 0deg;
                 --mouseY: 0deg;
+                --font-jetbrains: 'JetBrains Mono', monospace;
             }
             
             html, body {
@@ -205,6 +209,25 @@ const Portfolio = () => {
                 height: 100vh;
                 background-color: black;
                 overflow: hidden;
+            }
+            
+            /* 영어 텍스트에 JetBrains Mono 적용 */
+            .eng-text {
+                font-family: var(--font-jetbrains);
+            }
+            
+            /* 영어와 한글을 구분해서 폰트 적용 */
+            :lang(en) {
+                font-family: var(--font-jetbrains);
+            }
+            
+            /* 특정 요소에 대한 JetBrains Mono 폰트 적용 */
+            h1, h2, h3, h4, h5, h6 {
+                font-family: var(--font-jetbrains);
+            }
+            
+            .skill-name, .project-name, .tech-label {
+                font-family: var(--font-jetbrains);
             }
             
             /* 스크롤바 스타일링 */
@@ -245,32 +268,6 @@ const Portfolio = () => {
                 animation: fadeOut 0.6s forwards;
             }
             
-            .nav-button {
-                 background-color: rgba(79, 195, 247, 0.2);
-    color: white;
-    border: 2px solid #eee;
-    width: 60px;
-    height: 220px;
-    display: flex;
-    border-radius: 6px;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    transition: all 0.3s;
-    font-size: 2rem;
-    margin-top: 45px;
-    margin-left: 250px;
-    margin-right: 215px;
-    font-weight: 600; 
-    text-align: center;
-    padding: 0;
-    line-height: 1;  
-}
-            .nav-button:hover {
-                background-color: rgba(79, 195, 247, 0.3);
-                transform: scale(1.1);
-            }
-       
         `;
         document.head.appendChild(style);
 
@@ -297,6 +294,9 @@ const Portfolio = () => {
                 width: '100%',
                 maxWidth: '100%',
                 padding: '20px',
+                overflowX: 'auto',
+                overflowY: 'hidden',
+                minHeight: '300px',
             };
         }
         // Tablet
@@ -310,6 +310,10 @@ const Portfolio = () => {
                 width: '100%',
                 maxWidth: '100%',
                 padding: '20px',
+                overflowY: 'auto',
+                overflowX: 'hidden',
+                maxHeight: '90vh',
+                minHeight: '300px',
             };
         }
         // Mobile
@@ -322,7 +326,11 @@ const Portfolio = () => {
                 gap: '20px',
                 width: '100%',
                 maxWidth: '100%',
-                padding: '20px',
+                padding: '15px',
+                overflowY: 'auto',
+                overflowX: 'hidden',
+                maxHeight: '85vh',
+                minHeight: '250px',
             };
         }
     };
@@ -333,16 +341,19 @@ const Portfolio = () => {
             return {
                 width: '250px',
                 height: '250px',
+                minWidth: '250px',
             };
         } else if (windowWidth >= 390) {
             return {
                 width: '200px',
                 height: '200px',
+                minWidth: '200px',
             };
         } else {
             return {
                 width: '160px',
                 height: '160px',
+                minWidth: '160px',
             };
         }
     };
@@ -374,52 +385,39 @@ const Portfolio = () => {
         );
     };
 
-    // 네비게이션 버튼 렌더링
     const renderNavButtons = () => {
-        const currentIndex = sections.findIndex((section) => section.id === activeSection);
-
         return (
-            <>
-                {/* 이전 버튼 */}
-                <div
-                    style={{
-                        position: 'fixed',
-                        left: '30px',
-                        top: '50%',
-                        transform: 'translateY(-50%)',
-                        zIndex: 50,
-                        opacity: currentIndex > 0 ? 1 : 0.3,
-                        pointerEvents: currentIndex > 0 ? 'auto' : 'none',
-                    }}
-                >
-                    <div className='nav-button' onClick={goToPrevSection}>
-                        &lt;
-                    </div>
-                </div>
-
-                {/* 다음 버튼 */}
-                <div
-                    style={{
-                        position: 'fixed',
-
-                        right: '30px',
-                        top: '50%',
-                        transform: 'translateY(-50%)',
-                        zIndex: 50,
-                        opacity: currentIndex < sections.length - 1 ? 1 : 0.3,
-                        pointerEvents: currentIndex < sections.length - 1 ? 'auto' : 'none',
-                    }}
-                >
-                    <div className='nav-button' onClick={goToNextSection}>
-                        &gt;
-                    </div>
-                </div>
-            </>
+            <div
+                style={{
+                    position: 'fixed',
+                    bottom: '20px',
+                    left: '50%',
+                    transform: 'translateX(-50%)',
+                    display: 'flex',
+                    gap: '10px',
+                    zIndex: 50,
+                }}
+            >
+                {sections.map((section) => (
+                    <button
+                        key={section.id}
+                        style={{
+                            padding: '8px 15px',
+                            backgroundColor: activeSection === section.id ? '#f0f0f0' : 'transparent',
+                            color: activeSection === section.id ? 'black' : 'white',
+                            borderRadius: '3px',
+                            cursor: 'pointer',
+                            transition: 'all 0.3s',
+                            fontSize: windowWidth < 768 ? '0.8rem' : '1rem',
+                        }}
+                        onClick={() => handleSectionChange(section.id)}
+                    >
+                        {section.title}
+                    </button>
+                ))}
+            </div>
         );
     };
-
-    // 포트폴리오 섹션 렌더링
-    // Replace the renderPortfolioSection function with this updated version
 
     // 포트폴리오 섹션 렌더링
     const renderPortfolioSection = () => {
@@ -430,10 +428,10 @@ const Portfolio = () => {
 
         // GitHub URLs in order from left to right
         const githubUrls = [
-            'https://github.com/kksladder/Playstation_Project-main',
-            'https://github.com/kksladder/Hyukoh_Archive',
-            'https://github.com/kksladder/REELPICKott3',
             'https://github.com/kksladder/OHESHIO',
+            'https://github.com/kksladder/REELPICKott3',
+            'https://github.com/kksladder/Hyukoh_Archive',
+            'https://github.com/kksladder/Playstation_Project-main',
         ];
 
         // Enhanced hover handler with timeout
@@ -629,6 +627,7 @@ const Portfolio = () => {
                                             boxShadow: '0 2px 5px rgba(0,0,0,0.2)',
                                             fontWeight: 'bold',
                                             width: '100%',
+                                            fontFamily: "'JetBrains Mono', monospace",
                                         }}
                                     >
                                         Github View Code
@@ -642,7 +641,6 @@ const Portfolio = () => {
         );
     };
 
-    // 소개 섹션 렌더링
     const renderAboutSection = () => {
         return (
             <div
@@ -660,48 +658,55 @@ const Portfolio = () => {
                     transition: 'opacity 0.6s ease',
                     backgroundColor: 'transparent',
                     color: 'white',
-                    padding: '50px',
+                    padding: '0', // Removed the 50px padding that might be causing issues
                 }}
                 className={activeSection === 'about' ? 'section-transition-enter' : 'section-transition-exit'}
                 ref={(el) => (sectionRefs.current['about'] = el)}
             >
-                <div style={{ maxWidth: '800px', textAlign: 'center' }}>
-                    <h1 style={{ fontSize: '3rem', marginBottom: '2rem', color: '#eee' }}>안녕하세요</h1>
-                    <p style={{ fontSize: '1.2rem', lineHeight: '1.8', marginBottom: '2rem' }}>하이요</p>
+                <div
+                    style={{
+                        maxWidth: '800px',
+                        textAlign: 'center',
+                        width: '100%',
+                        margin: '0 auto',
+                        padding: '20px', // Consistent padding on all sides
+                        boxSizing: 'border-box',
+                    }}
+                >
+                    <h1
+                        style={{
+                            fontSize: 'clamp(2rem, 8vw, 3rem)', // Using clamp for better font scaling
+                            marginBottom: '2rem',
+                            color: '#eee',
+                            wordBreak: 'keep-all',
+                            overflowWrap: 'break-word',
+                            textAlign: 'center', // Explicitly set text alignment
+                        }}
+                    >
+                        안녕하세요
+                    </h1>
+                    <p
+                        style={{
+                            fontSize: 'clamp(1rem, 4vw, 1.2rem)', // Using clamp for better font scaling
+                            lineHeight: '1.8',
+                            marginBottom: '2rem',
+                            wordBreak: 'keep-all',
+                            overflowWrap: 'break-word',
+                            textAlign: 'center', // Explicitly set text alignment
+                        }}
+                    >
+                        나가라
+                    </p>
                     <div
                         style={{
                             display: 'flex',
                             justifyContent: 'center',
-                            gap: '20px',
+                            alignItems: 'center',
+                            gap: 'clamp(10px, 2vw, 20px)',
+                            width: '100%',
+                            flexWrap: 'wrap',
                         }}
-                    >
-                        <button
-                            style={{
-                                padding: '10px 20px',
-                                backgroundColor: '#eee',
-                                color: 'black',
-                                border: 'none',
-                                borderRadius: '5px',
-                                cursor: 'pointer',
-                                fontWeight: 'bold',
-                            }}
-                        >
-                            연락하기
-                        </button>
-                        <button
-                            style={{
-                                padding: '10px 20px',
-                                backgroundColor: '#eee',
-                                color: 'black',
-                                border: '2px solid #eee',
-                                borderRadius: '5px',
-                                cursor: 'pointer',
-                                fontWeight: 'bold',
-                            }}
-                        >
-                            이력서 보기
-                        </button>
-                    </div>
+                    />
                 </div>
             </div>
         );
@@ -712,7 +717,7 @@ const Portfolio = () => {
         // 각 프로젝트별 기술 스택 정의
         const projects = [
             {
-                name: 'Playstation',
+                name: 'Playstation Project',
                 skills: [
                     { name: 'HTML5', Icon: FaHtml5, color: '#E34F26' },
                     { name: 'CSS3', Icon: FaCss3Alt, color: '#1572B6' },
@@ -721,7 +726,7 @@ const Portfolio = () => {
                 ],
             },
             {
-                name: 'Hyukoh',
+                name: 'Hyukoh Archive',
                 skills: [
                     { name: 'Next.js', Icon: SiNextdotjs, color: '#eeeeee' },
                     { name: 'Tailwind CSS', Icon: SiTailwindcss, color: '#06B6D4' },
@@ -730,7 +735,7 @@ const Portfolio = () => {
                 ],
             },
             {
-                name: 'Reelpick',
+                name: 'Reelpick OTT',
                 skills: [
                     { name: 'HTML5', Icon: FaHtml5, color: '#E34F26' },
                     { name: 'CSS3', Icon: FaCss3Alt, color: '#1572B6' },
@@ -742,7 +747,7 @@ const Portfolio = () => {
                 ],
             },
             {
-                name: 'Oheshio',
+                name: 'Oheshio Renewal',
                 skills: [
                     { name: 'React', Icon: FaReact, color: '#61DAFB' },
                     { name: 'Vite', Icon: SiVite, color: '#646CFF' },
@@ -766,6 +771,7 @@ const Portfolio = () => {
             { name: 'Redux', level: 77, Icon: SiRedux, color: '#764ABC' },
             { name: 'Styled Components', level: 80, Icon: SiStyledcomponents, color: '#DB7093' },
             { name: 'Node.js', level: 80, Icon: FaNodeJs, color: '#339933' },
+            { name: 'Claude', level: 100, Icon: SiClaude, color: ' #FFA500' },
         ];
 
         return (
@@ -776,6 +782,7 @@ const Portfolio = () => {
                     top: 0,
                     left: 0,
                     width: '100%',
+                    marginTop: '50px',
                     height: '100vh',
                     display: 'flex',
                     alignItems: 'flex-start',
@@ -783,17 +790,26 @@ const Portfolio = () => {
                     pointerEvents: activeSection === 'skills' ? 'auto' : 'none',
                     transition: 'opacity 0.6s ease',
                     color: 'white',
-                    padding: '20px',
-                    overflowY: 'scroll',
+                    padding: '0',
+                    overflowY: 'auto',
                     overflowX: 'hidden',
+                    boxSizing: 'border-box',
                 }}
                 className={activeSection === 'skills' ? 'section-transition-enter' : 'section-transition-exit'}
                 ref={(el) => (sectionRefs.current['skills'] = el)}
             >
-                <div style={{ maxWidth: '800px', width: '100%', paddingTop: '30px', paddingBottom: '80px' }}>
+                <div
+                    style={{
+                        maxWidth: '900px',
+                        width: '100%',
+                        padding: '30px 20px 80px',
+                        textAlign: 'center',
+                        boxSizing: 'border-box',
+                    }}
+                >
                     <h1
                         style={{
-                            fontSize: '2.2rem',
+                            fontSize: 'clamp(1.8rem, 5vw, 2.2rem)',
                             marginTop: '2.5rem',
                             marginBottom: '1.2rem',
                             color: 'white',
@@ -802,6 +818,7 @@ const Portfolio = () => {
                             top: '0',
                             padding: '10px 0',
                             zIndex: 10,
+                            fontFamily: "'JetBrains Mono', monospace",
                         }}
                     >
                         Tech Stack
@@ -811,17 +828,25 @@ const Portfolio = () => {
                     <div style={{ marginBottom: '2rem', display: 'flex', flexDirection: 'column', gap: '2.5rem' }}>
                         {projects.map((project, projectIndex) => (
                             <div key={projectIndex} style={{ marginBottom: '0' }}>
-                                <h2 style={{ fontSize: '1.8rem', marginBottom: '0.8rem', color: 'white' }}>
+                                <h2
+                                    style={{
+                                        fontSize: 'clamp(1.5rem, 4vw, 1.8rem)',
+                                        marginBottom: '2rem',
+                                        color: 'white',
+                                        textAlign: 'center',
+                                    }}
+                                >
                                     {project.name}
                                 </h2>
                                 <div
                                     style={{
                                         display: 'flex',
-                                        flexWrap: 'wrap',
+                                        flexWrap: 'wrap', // 반응형을 위해 줄바꿈 허용
                                         gap: '12px',
-                                        justifyContent: 'flex-start',
+                                        justifyContent: 'center',
                                         marginTop: '10px',
                                     }}
+                                    className='project-skills-container'
                                 >
                                     {project.skills.map((skill, skillIndex) => (
                                         <div
@@ -830,12 +855,16 @@ const Portfolio = () => {
                                                 display: 'flex',
                                                 flexDirection: 'column',
                                                 alignItems: 'center',
+                                                justifyContent: 'center',
                                                 backgroundColor: 'rgba(255, 255, 255, 0.1)',
                                                 borderRadius: '8px',
                                                 padding: '10px',
                                                 width: '85px',
+                                                flexShrink: 0,
                                                 transition: 'transform 0.3s ease, box-shadow 0.3s ease',
+                                                textAlign: 'center',
                                             }}
+                                            className='skill-item'
                                             onMouseOver={(e) => {
                                                 e.currentTarget.style.transform = 'translateY(-5px)';
                                                 e.currentTarget.style.boxShadow = `0 5px 15px rgba(${parseInt(
@@ -852,7 +881,9 @@ const Portfolio = () => {
                                             }}
                                         >
                                             <skill.Icon size={30} color={skill.color} style={{ marginBottom: '8px' }} />
-                                            <span style={{ fontWeight: 'bold' }}>{skill.name}</span>
+                                            <span style={{ fontWeight: 'bold', textAlign: 'center', width: '100%' }}>
+                                                {skill.name}
+                                            </span>
                                         </div>
                                     ))}
                                 </div>
@@ -861,7 +892,14 @@ const Portfolio = () => {
                     </div>
 
                     {/* 기술 숙련도 섹션 */}
-                    <h2 style={{ fontSize: '1.8rem', marginBottom: '0.8rem', color: 'white' }}>
+                    <h2
+                        style={{
+                            fontSize: 'clamp(1.5rem, 4vw, 1.8rem)',
+                            marginBottom: '0.8rem',
+                            color: 'white',
+                            textAlign: 'center',
+                        }}
+                    >
                         Technical Proficiency
                     </h2>
                     <div
@@ -870,6 +908,9 @@ const Portfolio = () => {
                             flexDirection: 'column',
                             gap: '12px',
                             marginTop: '10px',
+                            width: '100%',
+                            maxWidth: '600px',
+                            margin: '10px auto 0',
                         }}
                     >
                         {skills.map((skill, index) => (
@@ -911,9 +952,50 @@ const Portfolio = () => {
                         ))}
                     </div>
                 </div>
+
+                {/* 반응형 스타일 */}
+                <style>{`
+                    /* 스크롤바 숨기기 */
+                    div::-webkit-scrollbar {
+                        display: none;
+                    }
+                    
+                    /* 기본 레이아웃 - 한 줄에 모든 아이콘 표시 */
+                    .project-skills-container {
+                        display: flex;
+                        flex-wrap: nowrap;
+                        overflow-x: auto;
+                        padding-bottom: 10px;
+                    }
+                    
+                    /* 850px 이하일 때 두 줄로 표시 */
+                    @media (max-width: 850px) {
+                        .project-skills-container {
+                            flex-wrap: wrap;
+                            overflow-x: visible;
+                        }
+                        
+                        /* Reelpick OTT와 Oheshio Renewal 프로젝트의 스킬은 7개이므로 두줄로 표시 */
+                        .project-skills-container .skill-item {
+                            width: calc(50% - 12px);
+                            max-width: 100px;
+                            margin-bottom: 10px;
+                        }
+                    }
+                    
+                    /* 390px 이하일 때 더 많은 스킬은 세 줄로 표시 */
+                    @media (max-width: 390px) {
+                        /* 6개 이상의 스킬이 있는 프로젝트에 대해 세 줄로 표시 */
+                        .project-skills-container .skill-item {
+                            width: calc(33.333% - 12px);
+                            max-width: 85px;
+                        }
+                    }
+                `}</style>
             </div>
         );
     };
+
     // 연락처 섹션 렌더링
     const renderContactSection = () => {
         return (
@@ -923,6 +1005,7 @@ const Portfolio = () => {
                     position: 'absolute',
                     top: 0,
                     left: 0,
+                    right: 0,
                     width: '100%',
                     height: '100%',
                     display: 'flex',
@@ -931,15 +1014,40 @@ const Portfolio = () => {
                     pointerEvents: activeSection === 'contact' ? 'auto' : 'none',
                     transition: 'opacity 0.6s ease',
                     color: 'white',
-                    padding: '50px',
+                    padding: '0px',
+                    margin: '0 auto',
+                    boxSizing: 'border-box',
                 }}
                 className={activeSection === 'contact' ? 'section-transition-enter' : 'section-transition-exit'}
                 ref={(el) => (sectionRefs.current['contact'] = el)}
             >
-                <div style={{ maxWidth: '800px', width: '100%', textAlign: 'center' }}>
-                    <h1 style={{ fontSize: '3rem', marginBottom: '2rem', color: '#eee' }}>연락처</h1>
-                    <p style={{ fontSize: '1.2rem', marginBottom: '2rem' }}>
-                        아래 정보로 연락해주세요. 언제든지 메시지를 보내주시면 빠르게 답변 드리겠습니다.
+                <div
+                    style={{
+                        maxWidth: '800px',
+                        width: '100%',
+                        textAlign: 'center',
+                        display: 'flex',
+                        flexDirection: 'column',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        padding: '0 20px',
+                        margin: '0 auto',
+                        boxSizing: 'border-box',
+                    }}
+                >
+                    <h1
+                        style={{
+                            fontSize: '3rem',
+                            marginBottom: '2rem',
+                            color: '#eee',
+                            width: '100%',
+                            textAlign: 'center',
+                        }}
+                    >
+                        contact
+                    </h1>
+                    <p style={{ fontSize: '1.2rem', marginBottom: '2rem', width: '100%', textAlign: 'center' }}>
+                        언제든지 메시지를 보내주시면 빠르게 답변 드리겠습니다.
                     </p>
 
                     <div
@@ -948,27 +1056,53 @@ const Portfolio = () => {
                             flexDirection: 'column',
                             gap: '20px',
                             alignItems: 'center',
+                            justifyContent: 'center',
                             marginTop: '2rem',
+                            width: '100%',
                         }}
                     >
                         <div
                             style={{
                                 display: 'flex',
                                 alignItems: 'center',
+                                justifyContent: 'center',
                                 gap: '10px',
+                                width: '100%',
+                                textAlign: 'center',
                             }}
                         >
-                            <span style={{ fontSize: '2rem' }}>kksladder@gmail.com</span>
+                            <span
+                                style={{
+                                    fontSize: '2rem',
+                                    maxWidth: '100%',
+                                    overflowWrap: 'break-word',
+                                    wordBreak: 'break-all',
+                                }}
+                            >
+                                kksladder@gmail.com
+                            </span>
                         </div>
 
                         <div
                             style={{
                                 display: 'flex',
                                 alignItems: 'center',
+                                justifyContent: 'center',
                                 gap: '10px',
+                                width: '100%',
+                                textAlign: 'center',
                             }}
                         >
-                            <span style={{ fontSize: '2rem' }}>010-8901-9670</span>
+                            <span
+                                style={{
+                                    fontSize: '2rem',
+                                    maxWidth: '100%',
+                                    overflowWrap: 'break-word',
+                                    wordBreak: 'break-all',
+                                }}
+                            >
+                                010-8901-9670
+                            </span>
                         </div>
                     </div>
                 </div>
@@ -995,10 +1129,10 @@ const Portfolio = () => {
                         key={section.id}
                         style={{
                             padding: '8px 15px',
-                            backgroundColor: activeSection === section.id ? '#4fc3f7' : 'transparent',
+                            backgroundColor: activeSection === section.id ? '#f0f0f0' : 'transparent',
                             color: activeSection === section.id ? 'black' : 'white',
-                            border: '1px solid #4fc3f7',
-                            borderRadius: '20px',
+                            // border: '1px solid #808080',
+                            borderRadius: '3px',
                             cursor: 'pointer',
                             transition: 'all 0.3s',
                             fontSize: windowWidth < 768 ? '0.8rem' : '1rem',
@@ -1041,14 +1175,14 @@ const Portfolio = () => {
                 <CollageLayout />
             </div>
 
-            {/* Navigation Dots */}
-            {windowWidth >= 768 && renderNavDots()}
+            {/* Navigation Dots (only on larger screens) */}
+            {windowWidth >= 1440 && renderNavDots()}
 
             {/* Navigation Buttons (only on larger screens) */}
-            {windowWidth >= 768 && renderNavButtons()}
+            {windowWidth >= 1440 && renderNavButtons()}
 
-            {/* Bottom Navigation (only on smaller screens) */}
-            {windowWidth < 768 && renderBottomNavigation()}
+            {/* Bottom Navigation (on screens smaller than 1440px) */}
+            {windowWidth < 1440 && renderBottomNavigation()}
 
             {/* All Sections */}
             <div style={{ position: 'relative', zIndex: 20, width: '100%', height: '100%' }}>
