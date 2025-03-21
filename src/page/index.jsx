@@ -683,7 +683,7 @@ const Portfolio = () => {
                 >
                     <h1
                         style={{
-                            fontSize: 'clamp(2rem, 8vw, 3rem)', // Using clamp for better font scaling
+                            fontSize: '1.7rem', // Using clamp for better font scaling
                             marginBottom: '2rem',
                             color: '#eee',
                             wordBreak: 'keep-all',
@@ -691,11 +691,11 @@ const Portfolio = () => {
                             textAlign: 'center', // Explicitly set text alignment
                         }}
                     >
-                        안녕하세요 항상 배우고 끊임없는 도전과 성장을 추구하는 웹퍼블리셔+개발자 김기섭 입니다.
+                        안녕하세요. 커피처럼 다양한 향을 가진 김기섭 입니다.
                     </h1>
                     <p
                         style={{
-                            fontSize: 'clamp(1rem, 4vw, 1.2rem)', // Using clamp for better font scaling
+                            fontSize: '1.1rem', // Using clamp for better font scaling
                             lineHeight: '1.8',
                             marginBottom: '2rem',
                             wordBreak: 'keep-all',
@@ -703,7 +703,10 @@ const Portfolio = () => {
                             textAlign: 'center', // Explicitly set text alignment
                         }}
                     >
-                        항상 밝고 낙천적이며 긍정적 사고와 상상력과 감수성이 매우 풍부한 ENFJ 입니다.
+                        항상 밝고 낙천적이며 긍정적사고 상상력과 감수성이 매우 풍부한 ENFJ 입니다. <br />
+                        영화와 음악으로 창의적 에너지를 충전하고 새로운 영감을 얻고 있습니다. <br /> 사람들과의 탁월한
+                        소통이 성격의 강점이며 어떠한 의견도 항상 귀 기울여 듣고 <br />
+                        수긍하여 함께 앞으로 나아가고 싶습니다.
                     </p>
                     <div
                         style={{
@@ -1055,7 +1058,7 @@ const Portfolio = () => {
                         contact
                     </h1>
                     <p style={{ fontSize: '1.2rem', marginBottom: '2rem', width: '100%', textAlign: 'center' }}>
-                        언제든지 메시지를 보내주시면 빠르게 답변 드리겠습니다.
+                        언제든지 메시지를 보내주시면 그 누구보다 빠르게 답변 드리겠습니다.
                     </p>
 
                     <div
