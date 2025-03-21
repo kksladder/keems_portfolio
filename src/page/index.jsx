@@ -203,26 +203,27 @@ const Portfolio = () => {
         }
         
         html, body {
-            perspective: 1000px;
-            margin: 0;
-            padding: 0;
-            width: 100%;
-            height: 100%;  /* 100vh에서 100%로 변경 */
-            background-color: black;
-            overflow-y: visible; /* auto에서 visible로 변경 */
-            overflow-x: hidden;
-            position: relative;
-        }
+    perspective: 1000px;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    background-color: black;
+    overflow-x: hidden;
+    position: relative;
+}
         
         body {
-            min-height: 100%;
-            touch-action: pan-y;
-        }
+    min-height: 100%;
+    overflow-y: auto; /* visible에서 auto로 변경 */
+    -webkit-overflow-scrolling: touch; /* iOS Safari에서 부드러운 스크롤을 위해 추가 */
+    touch-action: manipulation; /* 더 범용적인 터치 동작 설정 */
+}
         
         #root {
-            min-height: 100%;
-            overflow-y: visible;
-        }
+    min-height: 100%;
+    overflow-y: auto; /* visible에서 auto로 변경 */
+}
             
             /* 영어 텍스트에 JetBrains Mono 적용 */
             .eng-text {
