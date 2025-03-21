@@ -180,15 +180,29 @@ const Portfolio = () => {
         window.addEventListener('keydown', handleKeyDown);
 
         // Set global styles
-        document.body.style.margin = '0';
-        document.body.style.padding = '0';
-        document.body.style.backgroundColor = 'black';
-        document.body.style.overflowY = 'hidden';
-        document.body.style.height = '100vh';
-        document.documentElement.style.height = '100vh';
-        document.documentElement.style.overflow = 'hidden';
-        document.body.style.userSelect = 'none';
-        document.documentElement.style.userSelect = 'none';
+        if (windowWidth < 768) {
+            // 모바일 환경
+            document.body.style.margin = '0';
+            document.body.style.padding = '0';
+            document.body.style.backgroundColor = 'black';
+            document.body.style.overflowY = 'auto'; // hidden에서 auto로 변경
+            document.body.style.height = '100%';
+            document.documentElement.style.height = '100%';
+            document.documentElement.style.overflow = 'auto'; // hidden에서 auto로 변경
+            document.body.style.userSelect = 'none';
+            document.documentElement.style.userSelect = 'none';
+        } else {
+            // 데스크톱 환경 - 기존 코드 유지
+            document.body.style.margin = '0';
+            document.body.style.padding = '0';
+            document.body.style.backgroundColor = 'black';
+            document.body.style.overflowY = 'hidden';
+            document.body.style.height = '100vh';
+            document.documentElement.style.height = '100vh';
+            document.documentElement.style.overflow = 'hidden';
+            document.body.style.userSelect = 'none';
+            document.documentElement.style.userSelect = 'none';
+        }
 
         // Add CSS variables for the 3D effect
         const style = document.createElement('style');
@@ -202,16 +216,20 @@ const Portfolio = () => {
             --font-jetbrains: 'JetBrains Mono', monospace;
         }
         
-        html, body {
+  @media (max-width: 768px) {
+  html, body {
     perspective: 1000px;
     margin: 0;
     padding: 0;
     width: 100%;
     height: 100%;
     background-color: black;
+    overflow-y: auto !important; /* 강제로 auto 적용 */
     overflow-x: hidden;
     position: relative;
-}
+    -webkit-overflow-scrolling: touch;
+    touch-action: manipulation;
+  }
         
         body {
     min-height: 100%;
@@ -220,10 +238,10 @@ const Portfolio = () => {
     touch-action: manipulation; /* 더 범용적인 터치 동작 설정 */
 }
         
-        #root {
+  #root {
     min-height: 100%;
-    overflow-y: auto; /* visible에서 auto로 변경 */
-}
+    overflow-y: auto !important; /* 강제로 auto 적용 */
+  }
             
             /* 영어 텍스트에 JetBrains Mono 적용 */
             .eng-text {
@@ -297,21 +315,24 @@ const Portfolio = () => {
     // Get container styles based on screen size
     const getContainerStyles = () => {
         // Default styles (desktop)
-        if (windowWidth >= 1024) {
+        if (windowWidth < 1024) {
             return {
                 display: 'flex',
-                flexDirection: 'row',
-                justifyContent: 'center',
+                flexDirection: 'column',
+                justifyContent: 'flex-start',
                 alignItems: 'center',
-                gap: '50px',
-                flexWrap: 'nowrap',
+                gap: windowWidth >= 390 ? '30px' : '20px',
                 width: '100%',
                 maxWidth: '100%',
-                padding: '20px',
+                padding: windowWidth >= 390 ? '20px' : '15px',
                 paddingBottom: '70px',
-                overflowX: 'auto',
-                overflowY: 'visible',
-                minHeight: '300px',
+                overflowY: 'auto', // auto로 설정
+                overflowX: 'hidden',
+                height: 'auto',
+                minHeight: 'calc(100vh - 150px)',
+                WebkitOverflowScrolling: 'touch', // iOS Safari 스크롤 지원
+                touchAction: 'pan-y manipulation', // 터치 동작 개선
+                position: 'relative',
             };
         }
         // Tablet
