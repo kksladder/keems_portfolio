@@ -66,11 +66,13 @@ const Portfolio = () => {
     const [activeVideoCategory, setActiveVideoCategory] = useState('default');
     const [windowWidth, setWindowWidth] = useState(typeof window !== 'undefined' ? window.innerWidth : 1920);
     const [scrollProgress, setScrollProgress] = useState(0);
+    const [isMobile, setIsMobile] = useState(false);
 
     // Update window width
     const updateWindowWidth = useCallback(() => {
         const width = window.innerWidth;
         setWindowWidth(width);
+        setIsMobile(width < 768);
     }, []);
 
     // 섹션 변경 함수
@@ -86,33 +88,59 @@ const Portfolio = () => {
 
             // 섹션 변경
             setActiveSection(sectionId);
+
+            // 모바일 환경에서는 해당 섹션으로 스크롤
+            if (windowWidth < 768) {
+                const element = document.getElementById(sectionId);
+                if (element) {
+                    element.scrollIntoView({ behavior: 'smooth' });
+                }
+            }
         },
-        [activeSection, sections]
+        [activeSection, sections, windowWidth]
     );
 
     // 다음 섹션으로 이동
     const goToNextSection = useCallback(() => {
         const currentIndex = sections.findIndex((section) => section.id === activeSection);
         if (currentIndex < sections.length - 1) {
-            setActiveSection(sections[currentIndex + 1].id);
+            const nextSectionId = sections[currentIndex + 1].id;
+            setActiveSection(nextSectionId);
 
             // 스크롤 진행도를 업데이트 (애니메이션용)
             const progress = (currentIndex + 1) / (sections.length - 1);
             setScrollProgress(progress);
+
+            // 모바일 환경에서는 해당 섹션으로 스크롤
+            if (windowWidth < 768) {
+                const element = document.getElementById(nextSectionId);
+                if (element) {
+                    element.scrollIntoView({ behavior: 'smooth' });
+                }
+            }
         }
-    }, [activeSection, sections]);
+    }, [activeSection, sections, windowWidth]);
 
     // 이전 섹션으로 이동
     const goToPrevSection = useCallback(() => {
         const currentIndex = sections.findIndex((section) => section.id === activeSection);
         if (currentIndex > 0) {
-            setActiveSection(sections[currentIndex - 1].id);
+            const prevSectionId = sections[currentIndex - 1].id;
+            setActiveSection(prevSectionId);
 
             // 스크롤 진행도를 업데이트 (애니메이션용)
             const progress = (currentIndex - 1) / (sections.length - 1);
             setScrollProgress(progress);
+
+            // 모바일 환경에서는 해당 섹션으로 스크롤
+            if (windowWidth < 768) {
+                const element = document.getElementById(prevSectionId);
+                if (element) {
+                    element.scrollIntoView({ behavior: 'smooth' });
+                }
+            }
         }
-    }, [activeSection, sections]);
+    }, [activeSection, sections, windowWidth]);
 
     // Handle mouse movement for 3D effect
     const handleMouseMove = useCallback(
@@ -158,6 +186,37 @@ const Portfolio = () => {
         [hovered]
     );
 
+    // 모바일 환경에서 스크롤 이벤트 처리
+    const handleScroll = useCallback(() => {
+        if (windowWidth >= 768) return;
+
+        // 각 섹션 요소의 위치를 확인
+        const sectionElements = sections.map((section) => document.getElementById(section.id));
+
+        // 현재 보이는 섹션 찾기
+        const viewportHeight = window.innerHeight;
+        const scrollTop = window.scrollY;
+        const scrollCenter = scrollTop + viewportHeight / 2;
+
+        for (let i = 0; i < sectionElements.length; i++) {
+            const element = sectionElements[i];
+            if (!element) continue;
+
+            const rect = element.getBoundingClientRect();
+            const elemCenter = rect.top + rect.height / 2;
+
+            // 화면 중앙에 가장 가까운 섹션을 활성화
+            if (Math.abs(elemCenter - viewportHeight / 2) < viewportHeight / 2) {
+                if (activeSection !== sections[i].id) {
+                    setActiveSection(sections[i].id);
+                    const progress = i / (sections.length - 1);
+                    setScrollProgress(progress);
+                }
+                break;
+            }
+        }
+    }, [windowWidth, activeSection, sections]);
+
     // Set up event listeners and global styles
     useEffect(() => {
         // Initial window width
@@ -166,8 +225,15 @@ const Portfolio = () => {
         // Event listeners for resize
         window.addEventListener('resize', updateWindowWidth);
 
-        // Add mouse move event listener
-        document.addEventListener('mousemove', handleMouseMove);
+        // Add mouse move event listener for desktop
+        if (windowWidth >= 768) {
+            document.addEventListener('mousemove', handleMouseMove);
+        }
+
+        // Add scroll event listener for mobile
+        if (windowWidth < 768) {
+            window.addEventListener('scroll', handleScroll);
+        }
 
         // Add keyboard navigation
         const handleKeyDown = (e) => {
@@ -179,7 +245,7 @@ const Portfolio = () => {
         };
         window.addEventListener('keydown', handleKeyDown);
 
-        // Set global styles
+        // Set global styles based on device
         if (windowWidth < 768) {
             // 모바일 환경
             document.body.style.margin = '0';
@@ -216,90 +282,102 @@ const Portfolio = () => {
             --font-jetbrains: 'JetBrains Mono', monospace;
         }
         
-  @media (max-width: 768px) {
-  html, body {
-    perspective: 1000px;
-    margin: 0;
-    padding: 0;
-    width: 100%;
-    height: 100%;
-    background-color: black;
-    overflow-y: auto !important; /* 강제로 auto 적용 */
-    overflow-x: hidden;
-    position: relative;
-    -webkit-overflow-scrolling: touch;
-    touch-action: manipulation;
-  }
+        @media (max-width: 768px) {
+            html, body {
+                perspective: 1000px;
+                margin: 0;
+                padding: 0;
+                width: 100%;
+                height: 100%;
+                background-color: black;
+                overflow-y: auto !important; /* 강제로 auto 적용 */
+                overflow-x: hidden;
+                position: relative;
+                -webkit-overflow-scrolling: touch;
+                touch-action: manipulation;
+            }
+            
+            body {
+                min-height: 100%;
+                overflow-y: auto !important; /* visible에서 auto로 변경 */
+                -webkit-overflow-scrolling: touch; /* iOS Safari에서 부드러운 스크롤을 위해 추가 */
+                touch-action: manipulation; /* 더 범용적인 터치 동작 설정 */
+            }
+            
+            #root {
+                min-height: 100%;
+                overflow-y: auto !important; /* 강제로 auto 적용 */
+            }
+            
+            /* 모바일에서 섹션 스타일 */
+            .mobile-section {
+                min-height: 100vh;
+                width: 100%;
+                position: relative;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                padding: 20px 0;
+                box-sizing: border-box;
+            }
+        }
+            
+        /* 영어 텍스트에 JetBrains Mono 적용 */
+        .eng-text {
+            font-family: var(--font-jetbrains);
+        }
         
-        body {
-    min-height: 100%;
-    overflow-y: auto; /* visible에서 auto로 변경 */
-    -webkit-overflow-scrolling: touch; /* iOS Safari에서 부드러운 스크롤을 위해 추가 */
-    touch-action: manipulation; /* 더 범용적인 터치 동작 설정 */
-}
+        /* 영어와 한글을 구분해서 폰트 적용 */
+        :lang(en) {
+            font-family: var(--font-jetbrains);
+        }
         
-  #root {
-    min-height: 100%;
-    overflow-y: auto !important; /* 강제로 auto 적용 */
-  }
-            
-            /* 영어 텍스트에 JetBrains Mono 적용 */
-            .eng-text {
-                font-family: var(--font-jetbrains);
-            }
-            
-            /* 영어와 한글을 구분해서 폰트 적용 */
-            :lang(en) {
-                font-family: var(--font-jetbrains);
-            }
-            
-            /* 특정 요소에 대한 JetBrains Mono 폰트 적용 */
-            h1, h2, h3, h4, h5, h6 {
-                font-family: var(--font-jetbrains);
-            }
-            
-            .skill-name, .project-name, .tech-label {
-                font-family: var(--font-jetbrains);
-            }
-            
-            /* 스크롤바 스타일링 */
-            ::-webkit-scrollbar {
-                width: 6px;
-                height: 6px;
-            }
-            
-            ::-webkit-scrollbar-track {
-                background: rgba(0,0,0,0.2);
-                border-radius: 10px;
-            }
-            
-            ::-webkit-scrollbar-thumb {
-                background: #4fc3f7;
-                border-radius: 10px;
-            }
-            
-            ::-webkit-scrollbar-thumb:hover {
-                background: #29b6f6;
-            }
-            
-            @keyframes fadeIn {
-                from { opacity: 0; transform: translateY(20px); }
-                to { opacity: 1; transform: translateY(0); }
-            }
-            
-            @keyframes fadeOut {
-                from { opacity: 1; transform: translateY(0); }
-                to { opacity: 0; transform: translateY(-20px); }
-            }
-            
-            .section-transition-enter {
-                animation: fadeIn 0.6s forwards;
-            }
-            
-            .section-transition-exit {
-                animation: fadeOut 0.6s forwards;
-            }
-            
+        /* 특정 요소에 대한 JetBrains Mono 폰트 적용 */
+        h1, h2, h3, h4, h5, h6 {
+            font-family: var(--font-jetbrains);
+        }
+        
+        .skill-name, .project-name, .tech-label {
+            font-family: var(--font-jetbrains);
+        }
+        
+        /* 스크롤바 스타일링 */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: rgba(0,0,0,0.2);
+            border-radius: 10px;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: #4fc3f7;
+            border-radius: 10px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: #29b6f6;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes fadeOut {
+            from { opacity: 1; transform: translateY(0); }
+            to { opacity: 0; transform: translateY(-20px); }
+        }
+        
+        .section-transition-enter {
+            animation: fadeIn 0.6s forwards;
+        }
+        
+        .section-transition-exit {
+            animation: fadeOut 0.6s forwards;
+        }
         `;
         document.head.appendChild(style);
 
@@ -307,32 +385,30 @@ const Portfolio = () => {
         return () => {
             window.removeEventListener('resize', updateWindowWidth);
             document.removeEventListener('mousemove', handleMouseMove);
+            window.removeEventListener('scroll', handleScroll);
             window.removeEventListener('keydown', handleKeyDown);
             document.head.removeChild(style);
         };
-    }, [handleMouseMove, updateWindowWidth, goToNextSection, goToPrevSection]);
+    }, [handleMouseMove, updateWindowWidth, goToNextSection, goToPrevSection, handleScroll, windowWidth]);
 
     // Get container styles based on screen size
     const getContainerStyles = () => {
         // Default styles (desktop)
-        if (windowWidth < 1024) {
+        if (windowWidth >= 1024) {
             return {
                 display: 'flex',
-                flexDirection: 'column',
-                justifyContent: 'flex-start',
+                flexDirection: 'row',
+                justifyContent: 'center',
                 alignItems: 'center',
-                gap: windowWidth >= 390 ? '30px' : '20px',
+                gap: '50px',
+                flexWrap: 'nowrap',
                 width: '100%',
                 maxWidth: '100%',
-                padding: windowWidth >= 390 ? '20px' : '15px',
+                padding: '20px',
                 paddingBottom: '70px',
-                overflowY: 'auto', // auto로 설정
-                overflowX: 'hidden',
-                height: 'auto',
-                minHeight: 'calc(100vh - 150px)',
-                WebkitOverflowScrolling: 'touch', // iOS Safari 스크롤 지원
-                touchAction: 'pan-y manipulation', // 터치 동작 개선
-                position: 'relative',
+                overflowX: 'auto',
+                overflowY: 'visible',
+                minHeight: '300px',
             };
         }
         // Tablet
@@ -476,7 +552,7 @@ const Portfolio = () => {
     };
 
     // 포트폴리오 섹션 렌더링
-    const renderPortfolioSection = () => {
+    const renderPortfolioSection = (isMobileSection = false) => {
         // State to track which item should show the GitHub link
         const [visibleLink, setVisibleLink] = useState(null);
         // Ref to store timeout IDs for cleanup
@@ -530,22 +606,30 @@ const Portfolio = () => {
 
         return (
             <div
+                id='portfolio'
                 style={{
-                    opacity: activeSection === 'portfolio' ? 1 : 0,
-                    position: 'absolute',
+                    opacity: isMobileSection ? 1 : activeSection === 'portfolio' ? 1 : 0,
+                    position: isMobileSection ? 'relative' : 'absolute',
                     top: 0,
                     left: 0,
                     width: '100%',
-                    height: '100%',
+                    height: isMobileSection ? 'auto' : '100%',
+                    minHeight: isMobileSection ? '100vh' : 'auto',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    pointerEvents: activeSection === 'portfolio' ? 'auto' : 'none',
+                    pointerEvents: isMobileSection ? 'auto' : activeSection === 'portfolio' ? 'auto' : 'none',
                     transition: 'opacity 0.6s ease',
                     padding: '20px',
                     overflow: 'visible',
                 }}
-                className={activeSection === 'portfolio' ? 'section-transition-enter' : 'section-transition-exit'}
+                className={
+                    isMobileSection
+                        ? 'mobile-section'
+                        : activeSection === 'portfolio'
+                        ? 'section-transition-enter'
+                        : 'section-transition-exit'
+                }
                 ref={(el) => (sectionRefs.current['portfolio'] = el)}
             >
                 <div
@@ -702,26 +786,34 @@ const Portfolio = () => {
         );
     };
 
-    const renderAboutSection = () => {
+    const renderAboutSection = (isMobileSection = false) => {
         return (
             <div
+                id='about'
                 style={{
-                    opacity: activeSection === 'about' ? 1 : 0,
-                    position: 'absolute',
+                    opacity: isMobileSection ? 1 : activeSection === 'about' ? 1 : 0,
+                    position: isMobileSection ? 'relative' : 'absolute',
                     top: 0,
                     left: 0,
                     width: '100%',
-                    height: '100%',
+                    height: isMobileSection ? 'auto' : '100%',
+                    minHeight: isMobileSection ? '100vh' : 'auto',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    pointerEvents: activeSection === 'about' ? 'auto' : 'none',
+                    pointerEvents: isMobileSection ? 'auto' : activeSection === 'about' ? 'auto' : 'none',
                     transition: 'opacity 0.6s ease',
                     backgroundColor: 'transparent',
                     color: 'white',
-                    padding: '0', // Removed the 50px padding that might be causing issues
+                    padding: '0',
                 }}
-                className={activeSection === 'about' ? 'section-transition-enter' : 'section-transition-exit'}
+                className={
+                    isMobileSection
+                        ? 'mobile-section'
+                        : activeSection === 'about'
+                        ? 'section-transition-enter'
+                        : 'section-transition-exit'
+                }
                 ref={(el) => (sectionRefs.current['about'] = el)}
             >
                 <div
@@ -730,30 +822,30 @@ const Portfolio = () => {
                         textAlign: 'center',
                         width: '100%',
                         margin: '0 auto',
-                        padding: '20px', // Consistent padding on all sides
+                        padding: '20px',
                         boxSizing: 'border-box',
                     }}
                 >
                     <h1
                         style={{
-                            fontSize: '1.7rem', // Using clamp for better font scaling
+                            fontSize: '1.7rem',
                             marginBottom: '2rem',
                             color: '#eee',
                             wordBreak: 'keep-all',
                             overflowWrap: 'break-word',
-                            textAlign: 'center', // Explicitly set text alignment
+                            textAlign: 'center',
                         }}
                     >
                         안녕하세요. 커피처럼 다양한 향을 가진 김기섭 입니다.
                     </h1>
                     <p
                         style={{
-                            fontSize: '1.1rem', // Using clamp for better font scaling
+                            fontSize: '1.1rem',
                             lineHeight: '1.8',
                             marginBottom: '2rem',
                             wordBreak: 'keep-all',
                             overflowWrap: 'break-word',
-                            textAlign: 'center', // Explicitly set text alignment
+                            textAlign: 'center',
                         }}
                     >
                         항상 밝고 낙천적이며 긍정적사고 상상력과 감수성이 매우 풍부한 ENFJ 입니다. <br />
@@ -776,7 +868,7 @@ const Portfolio = () => {
         );
     };
 
-    const renderSkillsSection = () => {
+    const renderSkillsSection = (isMobileSection = false) => {
         // Playstation이 맨 앞에 보이도록 프로젝트 순서 조정
         // 각 프로젝트별 기술 스택 정의
         const projects = [
@@ -840,18 +932,20 @@ const Portfolio = () => {
 
         return (
             <div
+                id='skills'
                 style={{
-                    opacity: activeSection === 'skills' ? 1 : 0,
-                    position: 'absolute',
+                    opacity: isMobileSection ? 1 : activeSection === 'skills' ? 1 : 0,
+                    position: isMobileSection ? 'relative' : 'absolute',
                     top: 0,
                     left: 0,
                     width: '100%',
-                    marginTop: '50px',
-                    height: '100vh',
+                    marginTop: isMobileSection ? '0' : '50px',
+                    height: isMobileSection ? 'auto' : '100vh',
+                    minHeight: isMobileSection ? '100vh' : 'auto',
                     display: 'flex',
                     alignItems: 'flex-start',
                     justifyContent: 'center',
-                    pointerEvents: activeSection === 'skills' ? 'auto' : 'none',
+                    pointerEvents: isMobileSection ? 'auto' : activeSection === 'skills' ? 'auto' : 'none',
                     transition: 'opacity 0.6s ease',
                     color: 'white',
                     padding: '0',
@@ -859,7 +953,13 @@ const Portfolio = () => {
                     overflowX: 'hidden',
                     boxSizing: 'border-box',
                 }}
-                className={activeSection === 'skills' ? 'section-transition-enter' : 'section-transition-exit'}
+                className={
+                    isMobileSection
+                        ? 'mobile-section'
+                        : activeSection === 'skills'
+                        ? 'section-transition-enter'
+                        : 'section-transition-exit'
+                }
                 ref={(el) => (sectionRefs.current['skills'] = el)}
             >
                 <div
@@ -905,7 +1005,7 @@ const Portfolio = () => {
                                 <div
                                     style={{
                                         display: 'flex',
-                                        flexWrap: 'wrap', // 반응형을 위해 줄바꿈 허용
+                                        flexWrap: 'wrap',
                                         gap: '12px',
                                         justifyContent: 'center',
                                         marginTop: '10px',
@@ -1019,70 +1119,78 @@ const Portfolio = () => {
 
                 {/* 반응형 스타일 */}
                 <style>{`
-                    /* 스크롤바 숨기기 */
-                    div::-webkit-scrollbar {
-                        display: none;
-                    }
-                    
-                    /* 기본 레이아웃 - 한 줄에 모든 아이콘 표시 */
-                    .project-skills-container {
-                        display: flex;
-                        flex-wrap: nowrap;
-                        overflow-x: auto;
-                        padding-bottom: 10px;
-                    }
-                    
-                    /* 850px 이하일 때 두 줄로 표시 */
-                    @media (max-width: 850px) {
-                        .project-skills-container {
-                            flex-wrap: wrap;
-                            overflow-x: visible;
-                        }
-                        
-                        /* Reelpick OTT와 Oheshio Renewal 프로젝트의 스킬은 7개이므로 두줄로 표시 */
-                        .project-skills-container .skill-item {
-                            width: calc(50% - 12px);
-                            max-width: 100px;
-                            margin-bottom: 10px;
-                        }
-                    }
-                    
-                    /* 390px 이하일 때 더 많은 스킬은 세 줄로 표시 */
-                    @media (max-width: 390px) {
-                        /* 6개 이상의 스킬이 있는 프로젝트에 대해 세 줄로 표시 */
-                        .project-skills-container .skill-item {
-                            width: calc(33.333% - 12px);
-                            max-width: 85px;
-                        }
-                    }
-                `}</style>
+                   /* 스크롤바 숨기기 */
+                   div::-webkit-scrollbar {
+                       display: none;
+                   }
+                   
+                   /* 기본 레이아웃 - 한 줄에 모든 아이콘 표시 */
+                   .project-skills-container {
+                       display: flex;
+                       flex-wrap: nowrap;
+                       overflow-x: auto;
+                       padding-bottom: 10px;
+                   }
+                   
+                   /* 850px 이하일 때 두 줄로 표시 */
+                   @media (max-width: 850px) {
+                       .project-skills-container {
+                           flex-wrap: wrap;
+                           overflow-x: visible;
+                       }
+                       
+                       /* Reelpick OTT와 Oheshio Renewal 프로젝트의 스킬은 7개이므로 두줄로 표시 */
+                       .project-skills-container .skill-item {
+                           width: calc(50% - 12px);
+                           max-width: 100px;
+                           margin-bottom: 10px;
+                       }
+                   }
+                   
+                   /* 390px 이하일 때 더 많은 스킬은 세 줄로 표시 */
+                   @media (max-width: 390px) {
+                       /* 6개 이상의 스킬이 있는 프로젝트에 대해 세 줄로 표시 */
+                       .project-skills-container .skill-item {
+                           width: calc(33.333% - 12px);
+                           max-width: 85px;
+                       }
+                   }
+               `}</style>
             </div>
         );
     };
 
     // 연락처 섹션 렌더링
-    const renderContactSection = () => {
+    const renderContactSection = (isMobileSection = false) => {
         return (
             <div
+                id='contact'
                 style={{
-                    opacity: activeSection === 'contact' ? 1 : 0,
-                    position: 'absolute',
+                    opacity: isMobileSection ? 1 : activeSection === 'contact' ? 1 : 0,
+                    position: isMobileSection ? 'relative' : 'absolute',
                     top: 0,
                     left: 0,
                     right: 0,
                     width: '100%',
-                    height: '100%',
+                    height: isMobileSection ? 'auto' : '100%',
+                    minHeight: isMobileSection ? '100vh' : 'auto',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    pointerEvents: activeSection === 'contact' ? 'auto' : 'none',
+                    pointerEvents: isMobileSection ? 'auto' : activeSection === 'contact' ? 'auto' : 'none',
                     transition: 'opacity 0.6s ease',
                     color: 'white',
                     padding: '0px',
                     margin: '0 auto',
                     boxSizing: 'border-box',
                 }}
-                className={activeSection === 'contact' ? 'section-transition-enter' : 'section-transition-exit'}
+                className={
+                    isMobileSection
+                        ? 'mobile-section'
+                        : activeSection === 'contact'
+                        ? 'section-transition-enter'
+                        : 'section-transition-exit'
+                }
                 ref={(el) => (sectionRefs.current['contact'] = el)}
             >
                 <div
@@ -1185,11 +1293,11 @@ const Portfolio = () => {
                     transform: 'translateX(-50%)',
                     display: 'flex',
                     gap: '10px',
-                    zIndex: 9999, // z-index 값 증가
-                    backgroundColor: 'rgba(0,0,0,0.7)', // 배경색 추가
+                    zIndex: 9999,
+                    backgroundColor: 'rgba(0,0,0,0.7)',
                     padding: '5px 10px',
                     borderRadius: '5px',
-                    width: '80%', // 너비 제한
+                    width: '80%',
                     justifyContent: 'center',
                 }}
             >
@@ -1206,11 +1314,11 @@ const Portfolio = () => {
                             fontSize: windowWidth < 768 ? '0.8rem' : '1rem',
                             WebkitTapHighlightColor: 'transparent',
                             touchAction: 'manipulation',
-                            border: '1px solid #555', // 테두리 추가
+                            border: '1px solid #555',
                         }}
                         onClick={(e) => {
                             e.preventDefault();
-                            e.stopPropagation(); // 이벤트 전파 중지
+                            e.stopPropagation();
                             handleSectionChange(section.id);
                         }}
                     >
@@ -1229,7 +1337,7 @@ const Portfolio = () => {
                 height: '100vh',
                 position: 'relative',
                 backgroundColor: 'black',
-                overflow: 'hidden',
+                overflow: windowWidth < 768 ? 'auto' : 'hidden',
             }}
         >
             {/* Background Video Component */}
@@ -1243,7 +1351,6 @@ const Portfolio = () => {
                 }}
             >
                 <FloatingContactGlitch />
-
                 <BackgroundVideo category={activeVideoCategory} />
             </div>
 
@@ -1261,13 +1368,33 @@ const Portfolio = () => {
             {/* Bottom Navigation (on screens smaller than 1440px) */}
             {windowWidth < 1440 && renderBottomNavigation()}
 
-            {/* All Sections */}
-            <div style={{ position: 'relative', zIndex: 20, width: '100%', height: '100%' }}>
-                {renderPortfolioSection()}
-                {renderAboutSection()}
-                {renderSkillsSection()}
-                {renderContactSection()}
-            </div>
+            {/* All Sections - 모바일용 스크롤 레이아웃 또는 데스크톱용 포지션 레이아웃 */}
+            {windowWidth < 768 ? (
+                // 모바일 환경 - 스크롤 가능한 레이아웃
+                <div
+                    style={{
+                        position: 'relative',
+                        zIndex: 20,
+                        width: '100%',
+                        overflowY: 'auto',
+                        height: 'auto',
+                        paddingBottom: '100px',
+                    }}
+                >
+                    {renderPortfolioSection(true)}
+                    {renderAboutSection(true)}
+                    {renderSkillsSection(true)}
+                    {renderContactSection(true)}
+                </div>
+            ) : (
+                // 데스크톱 환경 - 기존 방식
+                <div style={{ position: 'relative', zIndex: 20, width: '100%', height: '100%' }}>
+                    {renderPortfolioSection()}
+                    {renderAboutSection()}
+                    {renderSkillsSection()}
+                    {renderContactSection()}
+                </div>
+            )}
         </div>
     );
 };
