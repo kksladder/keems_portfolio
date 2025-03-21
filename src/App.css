@@ -1,22 +1,30 @@
 /* Google Fonts에서 JetBrains Mono 폰트 임포트 */
 @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&display=swap');
 
+html,
+body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+    position: relative;
+    -webkit-overflow-scrolling: touch; /* iOS에서 부드러운 스크롤 지원 */
+    overscroll-behavior: contain; /* 오버스크롤 동작 제어 */
+    touch-action: manipulation; /* 터치 동작 최적화 */
+}
+
+body {
+    overflow-y: auto; /* 세로 스크롤 허용 */
+}
+
 #root {
     max-width: 1920px;
     margin: 0 auto;
     padding: 2rem;
     text-align: center;
-    height: 100%;
-    overflow: auto;
+    min-height: 100%;
     position: relative;
-}
-
-html,
-body {
-    height: 100%;
-    overflow: auto;
-    margin: 0;
-    padding: 0;
+    overflow-y: visible; /* 내용이 넘치면 스크롤 허용 */
 }
 
 /* JetBrains Mono 폰트를 영어 텍스트에 적용하기 위한 클래스 */
@@ -81,12 +89,31 @@ h6 {
     font-family: 'JetBrains Mono', monospace;
 }
 
-/* 스크롤바 숨김 */
+/* 스크롤바 숨김 - 모바일에서도 동작하게 수정 */
 ::-webkit-scrollbar {
+    width: 0;
+    height: 0;
     display: none;
 }
 
 /* 스크롤바 숨김 (Firefox) */
 * {
     scrollbar-width: none;
+    -ms-overflow-style: none; /* IE/Edge에서 스크롤바 숨김 */
+}
+
+/* 모바일 기기를 위한 미디어 쿼리 */
+@media (max-width: 768px) {
+    html,
+    body {
+        overflow-y: auto;
+        height: 100%;
+        -webkit-text-size-adjust: 100%; /* 폰트 크기 자동 조정 방지 */
+    }
+
+    #root {
+        height: auto;
+        min-height: 100%;
+        padding: 1rem; /* 모바일에서는 패딩 줄임 */
+    }
 }
