@@ -332,12 +332,11 @@ const Portfolio = () => {
                 maxWidth: '100%',
                 padding: '15px',
                 paddingBottom: '70px',
-                overflowY: 'scroll',
+                overflowY: 'scroll', // auto에서 scroll로 변경
                 overflowX: 'visible',
-                height: '100%',
+                height: '100%', // maxHeight 대신 height 사용
                 minHeight: '250px',
-                WebkitOverflowScrolling: 'touch',
-                position: 'relative',
+                WebkitOverflowScrolling: 'touch', // iOS 디바이스를 위한 설정
             };
         }
     };

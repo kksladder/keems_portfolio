@@ -6,6 +6,17 @@
     margin: 0 auto;
     padding: 2rem;
     text-align: center;
+    height: 100%;
+    overflow: auto;
+    position: relative;
+}
+
+html,
+body {
+    height: 100%;
+    overflow: auto;
+    margin: 0;
+    padding: 0;
 }
 
 /* JetBrains Mono 폰트를 영어 텍스트에 적용하기 위한 클래스 */
