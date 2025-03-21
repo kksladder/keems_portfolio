@@ -313,9 +313,9 @@ const Portfolio = () => {
                 width: '100%',
                 maxWidth: '100%',
                 padding: '20px',
-                paddingBottom: '70px', // GitHub 버튼을 위한 하단 여백 추가
+                paddingBottom: '70px',
                 overflowY: 'auto',
-                overflowX: 'visible', // hidden에서 visible로 변경
+                overflowX: 'visible',
                 maxHeight: '90vh',
                 minHeight: '300px',
             };
@@ -332,12 +332,12 @@ const Portfolio = () => {
                 maxWidth: '100%',
                 padding: '15px',
                 paddingBottom: '70px',
-                overflowY: 'scroll', // auto에서 scroll로 변경
+                overflowY: 'scroll',
                 overflowX: 'visible',
-                height: '100%', // maxHeight 대신 height 사용
+                height: '100%',
                 minHeight: '250px',
-                WebkitOverflowScrolling: 'touch', // iOS 디바이스를 위한 설정
-                position: 'relative', // 명시적 position 설정
+                WebkitOverflowScrolling: 'touch',
+                position: 'relative',
             };
         }
     };
