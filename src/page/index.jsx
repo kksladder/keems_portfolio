@@ -193,32 +193,36 @@ const Portfolio = () => {
         // Add CSS variables for the 3D effect
         const style = document.createElement('style');
         style.textContent = `
-    /* Google Fonts에서 JetBrains Mono 폰트 임포트 */
-    @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&display=swap');
-    
-    :root {
-        --mouseX: 0deg;
-        --mouseY: 0deg;
-        --font-jetbrains: 'JetBrains Mono', monospace;
-    }
-    
-    html, body {
-        perspective: 1000px;
-        margin: 0;
-        padding: 0;
-        width: 100%;
-        height: 100%;  /* 100vh에서 100%로 변경 */
-        background-color: black;
-        overflow: auto;
-        position: relative;
-        -webkit-overflow-scrolling: touch;
-        overscroll-behavior: contain; /* 오버스크롤 동작 방지 */
-    }
-    
-    body {
-        min-height: 100%;
-        touch-action: pan-y; /* 수직 스크롤만 허용 */
-    }
+        /* Google Fonts에서 JetBrains Mono 폰트 임포트 */
+        @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+        
+        :root {
+            --mouseX: 0deg;
+            --mouseY: 0deg;
+            --font-jetbrains: 'JetBrains Mono', monospace;
+        }
+        
+        html, body {
+            perspective: 1000px;
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;  /* 100vh에서 100%로 변경 */
+            background-color: black;
+            overflow-y: visible; /* auto에서 visible로 변경 */
+            overflow-x: hidden;
+            position: relative;
+        }
+        
+        body {
+            min-height: 100%;
+            touch-action: pan-y;
+        }
+        
+        #root {
+            min-height: 100%;
+            overflow-y: visible;
+        }
             
             /* 영어 텍스트에 JetBrains Mono 적용 */
             .eng-text {
@@ -392,8 +396,23 @@ const Portfolio = () => {
                     <div
                         key={section.id}
                         className={`nav-dot ${activeSection === section.id ? 'active' : ''}`}
-                        onClick={() => handleSectionChange(section.id)}
+                        onClick={(e) => {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            handleSectionChange(section.id);
+                        }}
                         title={section.title}
+                        style={{
+                            width: '12px',
+                            height: '12px',
+                            borderRadius: '50%',
+                            backgroundColor: activeSection === section.id ? '#fff' : 'rgba(255,255,255,0.5)',
+                            cursor: 'pointer',
+                            transition: 'all 0.3s',
+                            margin: '0 5px',
+                            WebkitTapHighlightColor: 'transparent',
+                            border: activeSection === section.id ? '2px solid #fff' : '1px solid rgba(255,255,255,0.7)',
+                        }}
                     />
                 ))}
             </div>
@@ -1144,7 +1163,12 @@ const Portfolio = () => {
                     transform: 'translateX(-50%)',
                     display: 'flex',
                     gap: '10px',
-                    zIndex: 50,
+                    zIndex: 9999, // z-index 값 증가
+                    backgroundColor: 'rgba(0,0,0,0.7)', // 배경색 추가
+                    padding: '5px 10px',
+                    borderRadius: '5px',
+                    width: '80%', // 너비 제한
+                    justifyContent: 'center',
                 }}
             >
                 {sections.map((section) => (
@@ -1154,16 +1178,17 @@ const Portfolio = () => {
                             padding: '8px 15px',
                             backgroundColor: activeSection === section.id ? '#f0f0f0' : 'transparent',
                             color: activeSection === section.id ? 'black' : 'white',
-                            // border: '1px solid #808080',
                             borderRadius: '3px',
                             cursor: 'pointer',
                             transition: 'all 0.3s',
                             fontSize: windowWidth < 768 ? '0.8rem' : '1rem',
-                            WebkitTapHighlightColor: 'transparent', // 탭 하이라이트 제거
-                            touchAction: 'manipulation', // 더블 탭 줌 방지
+                            WebkitTapHighlightColor: 'transparent',
+                            touchAction: 'manipulation',
+                            border: '1px solid #555', // 테두리 추가
                         }}
                         onClick={(e) => {
                             e.preventDefault();
+                            e.stopPropagation(); // 이벤트 전파 중지
                             handleSectionChange(section.id);
                         }}
                     >
