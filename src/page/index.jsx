@@ -193,24 +193,32 @@ const Portfolio = () => {
         // Add CSS variables for the 3D effect
         const style = document.createElement('style');
         style.textContent = `
-            /* Google Fonts에서 JetBrains Mono 폰트 임포트 */
-            @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&display=swap');
-            
-            :root {
-                --mouseX: 0deg;
-                --mouseY: 0deg;
-                --font-jetbrains: 'JetBrains Mono', monospace;
-            }
-            
-            html, body {
-                perspective: 1000px;
-                margin: 0;
-                padding: 0;
-                width: 100%;
-                height: 100vh;
-                background-color: black;
-                overflow: hidden;
-            }
+    /* Google Fonts에서 JetBrains Mono 폰트 임포트 */
+    @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+    
+    :root {
+        --mouseX: 0deg;
+        --mouseY: 0deg;
+        --font-jetbrains: 'JetBrains Mono', monospace;
+    }
+    
+    html, body {
+        perspective: 1000px;
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        height: 100%;  /* 100vh에서 100%로 변경 */
+        background-color: black;
+        overflow: auto;
+        position: relative;
+        -webkit-overflow-scrolling: touch;
+        overscroll-behavior: contain; /* 오버스크롤 동작 방지 */
+    }
+    
+    body {
+        min-height: 100%;
+        touch-action: pan-y; /* 수직 스크롤만 허용 */
+    }
             
             /* 영어 텍스트에 JetBrains Mono 적용 */
             .eng-text {
@@ -285,7 +293,6 @@ const Portfolio = () => {
     const getContainerStyles = () => {
         // Default styles (desktop)
         if (windowWidth >= 1024) {
-            <div></div>;
             return {
                 display: 'flex',
                 flexDirection: 'row',
@@ -296,9 +303,9 @@ const Portfolio = () => {
                 width: '100%',
                 maxWidth: '100%',
                 padding: '20px',
-                paddingBottom: '70px', // GitHub 버튼을 위한 하단 여백 추가
+                paddingBottom: '70px',
                 overflowX: 'auto',
-                overflowY: 'visible', // hidden에서 visible로 변경
+                overflowY: 'visible',
                 minHeight: '300px',
             };
         }
@@ -315,9 +322,11 @@ const Portfolio = () => {
                 padding: '20px',
                 paddingBottom: '70px',
                 overflowY: 'auto',
-                overflowX: 'visible',
-                maxHeight: '90vh',
-                minHeight: '300px',
+                overflowX: 'hidden',
+                height: 'auto',
+                minHeight: 'calc(100vh - 150px)',
+                WebkitOverflowScrolling: 'touch',
+                touchAction: 'pan-y',
             };
         }
         // Mobile
@@ -332,11 +341,13 @@ const Portfolio = () => {
                 maxWidth: '100%',
                 padding: '15px',
                 paddingBottom: '70px',
-                overflowY: 'scroll', // auto에서 scroll로 변경
-                overflowX: 'visible',
-                height: '100%', // maxHeight 대신 height 사용
-                minHeight: '250px',
-                WebkitOverflowScrolling: 'touch', // iOS 디바이스를 위한 설정
+                overflowY: 'auto',
+                overflowX: 'hidden',
+                height: 'auto',
+                minHeight: 'calc(100vh - 150px)',
+                WebkitOverflowScrolling: 'touch',
+                touchAction: 'pan-y',
+                position: 'relative',
             };
         }
     };
@@ -1148,8 +1159,13 @@ const Portfolio = () => {
                             cursor: 'pointer',
                             transition: 'all 0.3s',
                             fontSize: windowWidth < 768 ? '0.8rem' : '1rem',
+                            WebkitTapHighlightColor: 'transparent', // 탭 하이라이트 제거
+                            touchAction: 'manipulation', // 더블 탭 줌 방지
                         }}
-                        onClick={() => handleSectionChange(section.id)}
+                        onClick={(e) => {
+                            e.preventDefault();
+                            handleSectionChange(section.id);
+                        }}
                     >
                         {section.title}
                     </button>
