@@ -257,6 +257,8 @@ const Portfolio = () => {
             document.documentElement.style.overflow = 'auto'; // hidden에서 auto로 변경
             document.body.style.userSelect = 'none';
             document.documentElement.style.userSelect = 'none';
+            document.documentElement.style.overscrollBehavior = 'none';
+            document.body.style.overscrollBehavior = 'none';
         } else {
             // 데스크톱 환경 - 기존 코드 유지
             document.body.style.margin = '0';
@@ -295,6 +297,7 @@ const Portfolio = () => {
                 position: relative;
                 -webkit-overflow-scrolling: touch;
                 touch-action: manipulation;
+                 overscroll-behavior: none;
             }
             
             body {
@@ -302,12 +305,17 @@ const Portfolio = () => {
                 overflow-y: auto !important; /* visible에서 auto로 변경 */
                 -webkit-overflow-scrolling: touch; /* iOS Safari에서 부드러운 스크롤을 위해 추가 */
                 touch-action: manipulation; /* 더 범용적인 터치 동작 설정 */
+                overscroll-behavior-y: none;
             }
             
             #root {
                 min-height: 100%;
                 overflow-y: auto !important; /* 강제로 auto 적용 */
+                overscroll-behavior-y: none;
             }
+                 {
+      overscroll-behavior: none;
+    }
             
             /* 모바일에서 섹션 스타일 */
             .mobile-section {
@@ -1294,7 +1302,7 @@ const Portfolio = () => {
                     display: 'flex',
                     gap: '10px',
                     zIndex: 9999,
-                    backgroundColor: 'rgba(0,0,0,0.7)',
+
                     padding: '5px 10px',
                     borderRadius: '5px',
                     width: '80%',
@@ -1338,6 +1346,7 @@ const Portfolio = () => {
                 position: 'relative',
                 backgroundColor: 'black',
                 overflow: windowWidth < 768 ? 'auto' : 'hidden',
+                overscrollBehavior: 'none',
             }}
         >
             {/* Background Video Component */}
