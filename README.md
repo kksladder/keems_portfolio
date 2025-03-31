@@ -16,7 +16,7 @@
 - 반응형 디자인으로 다양한 디바이스에서 최적화된 사용자 경험 제공
 - 각 세대별 PlayStation 콘솔 및 대표 게임 소개
 
-**GitHub**: [<img src="https://github.com/kksladder/Playstation_Project-main"/>](링크 입력)
+**GitHub**: [src="https://github.com/kksladder/Playstation_Project-main"](링크 입력)
 
 ### 2. 혁오 밴드 10주년 앨범 아카이브 🎵
 
