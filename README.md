@@ -33,7 +33,7 @@
 - Chakra UI와 Tailwind CSS를 활용한 모던한 UI/UX 디자인
 - 앨범 및 곡 검색 기능 구현
 
-**GitHub**: [<img src="https://github.com/kksladder/Hyukoh_Archive"/>](링크 입력)
+**GitHub**: "https://github.com/kksladder/Hyukoh_Archive"
 
 ### 3. ReelPick - OTT 서비스 팀 프로젝트 🎬
 
@@ -54,7 +54,7 @@
 - 사용자 맞춤형 콘텐츠 추천 알고리즘 구현
 - 팀 협업을 위한 Git 전략 수립 및 실행
 
-**GitHub**: [<img src="https://github.com/kksladder/REELPICKott3"/>](링크 입력)
+**GitHub**: "https://github.com/kksladder/REELPICKott3"
 
 ### 4. Oheshio 웹사이트 리뉴얼 팀 프로젝트 🌊
 
@@ -75,7 +75,7 @@
 - 모바일 친화적인 반응형 디자인 적용
 - 사용자 경험 향상을 위한 UI/UX 개선
 
-**GitHub**: [<img src="https://github.com/kksladder/OHESHIO"/>](링크 입력)
+**GitHub**: "https://github.com/kksladder/OHESHIO"
 
 ## 기술 스택 ⚙️
 
@@ -135,6 +135,6 @@
 
 ## 연락처 📫
 
-- **이메일**: [<img src="kksladder@gmail.com"/>]
-- **GitHub**: [<img src="https://github.com/kksladder"/>]
-- **포트폴리오 웹사이트**: [<img src="keems-portfolio.vercel.app"/>]
+- **이메일**: "kksladder@gmail.com"
+- **GitHub**: "https://github.com/kksladder"
+- **포트폴리오 웹사이트**: "keems-portfolio.vercel.app"
