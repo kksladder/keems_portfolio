@@ -35,7 +35,7 @@ const Portfolio = () => {
             id: 2,
             title: 'Hyukoh Project',
             imageUrl: '/image/aaa.jpg',
-            url: 'https://react-sepia-five-30.vercel.app/',
+            url: 'https://hyukoh-archive.vercel.app/',
             videoCategory: 'hyukoh',
         },
         {
