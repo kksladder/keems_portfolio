@@ -42,7 +42,7 @@ const Portfolio = () => {
             id: 1,
             title: 'PlayStation Project',
             imageUrl: '/image/ps5.jpg',
-            url: 'https://kksladder.github.io/Playstation_Project/index2.html',
+            url: 'https://kksladder.github.io/Playstation_Project-main/',
             videoCategory: 'playstation',
         },
     ];
